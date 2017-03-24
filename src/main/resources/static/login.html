@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Tiandi Test</title>
+    <!--<script type="text/javascript" src="js/jquery-2.1.1.js"></script>-->
+    <script  type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+    <div>
+        <h1>Admin 666!</h1>
+        <span style="display:block; width: 100px;">用户名：</span><input type="text" name="username" id="username" />
+        </br>
+        <span style="display:block; width: 100px;">密码：</span><input type="password" name="password" id="password"/>
+        </br>
+        <button onclick="login()">登陆SpringSecurity</button>
+    </div>
+    <script>
+        var login = function () {
+//            var username = $('#username').val();
+//            var password = $('#password').val();
+            var username = 'admin';
+            var password = 'admin';
+            $.ajax({
+                url:'/account/login',
+                type:'POST', //GET
+                async:true,    //或false,是否异步
+                data:JSON.stringify({
+                    "username":username,"password":password
+                }),
+                contentType: "application/json; charset=utf-8",
+                timeout:3000,    //超时时间
+                dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+                beforeSend:function(xhr){
+                    console.log(xhr);
+                    console.log('发送前');
+                },
+                success:function(data,textStatus,jqXHR){
+                    console.log(data);
+                    console.log(textStatus);
+                    console.log(jqXHR);
+                },
+                error:function(xhr,textStatus){
+                    console.log('错误');
+                    console.log(xhr);
+                    alert(xhr.responseText);
+                    console.log(textStatus);
+                },
+                complete:function(){
+                    console.log('结束');
+                }
+            })
+        }
+    </script>
+</body>
+</html>
