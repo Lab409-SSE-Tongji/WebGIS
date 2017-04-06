@@ -22,10 +22,6 @@
 nbproject/private/
 build/
 nbbuild/
-dist/
+/dist/
 nbdist/
 .nb-gradle/
-
-## For File Store ##
-#files/*
-#!files/README.txt
