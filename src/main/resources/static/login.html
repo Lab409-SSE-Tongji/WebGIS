@@ -22,32 +22,30 @@
 
 <body class="gray-bg">
 
-<div class="loginColumns animated fadeInDown">
+<div class="loginColumns animated fadeInDown" id="app">
     <div class="row">
 
         <div class="col-md-6">
             <h2 class="font-bold">Welcome to IN+</h2>
 
             <p>
-                Perfectly designed and precisely prepared admin theme with over 50 pages with extra new web app views.
+                何雨666 扎铁了！老心！就我一个人在写代码！ 还不请我吃饭？
             </p>
-
             <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                <!-- 使用 router-link 组件来导航. -->
+                <!-- 通过传入 `to` 属性指定链接. -->
+                <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+                <router-link to="/foo">Go to Foo</router-link>
+                <router-link to="/bar">Go to Bar</router-link>
+                <router-link to="/user/heyu">Go to Heyu</router-link>
             </p>
+            <router-view></router-view>
 
-            <p>
-                When an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            </p>
-
-            <p>
-                <small>It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</small>
-            </p>
 
         </div>
         <div class="col-md-6">
             <div class="ibox-content">
-                <form id="app" class="m-t" role="form" @submit="login()">
+                <form class="m-t" role="form" @submit="login()">
                     <div class="form-group">
                         <!--<input type="email" class="form-control" placeholder="Username" required="" v-model="username">-->
                         <input class="form-control" placeholder="Username" required="" v-model="username">
@@ -85,7 +83,35 @@
 </div>
 
 <script>
-    new Vue({
+    // 1. 定义（路由）组件。
+    // 可以从其他文件 import 进来
+    const Foo = { template: '<div>foo {{ $route.params.id }}</div>' }
+    const Bar = { template: '<div>bar {{ $route.params.id }}</div>' }
+    const User = {
+        template: `<div>User {{ $route.params.id }}</div>`
+    }
+
+    // 2. 定义路由
+    // 每个路由应该映射一个组件。 其中"component" 可以是
+    // 通过 Vue.extend() 创建的组件构造器，
+    // 或者，只是一个组件配置对象。
+    // 我们晚点再讨论嵌套路由。
+    const routes = [
+        { path: '/foo', component: Foo },
+        { path: '/bar', component: Bar },
+        { path: '/user/:id', component: User }
+    ]
+
+    // 3. 创建 router 实例，然后传 `routes` 配置
+    // 你还可以传别的配置参数, 不过先这么简单着吧。
+    const router = new VueRouter({
+        routes // （缩写）相当于 routes: routes
+    })
+
+    // 4. 创建和挂载根实例。
+    // 记得要通过 router 配置参数注入路由，
+    // 从而让整个应用都有路由功能
+    const app = new Vue({
         el: '#app',
         data: {
             username: null,
@@ -100,14 +126,15 @@
                 this.$http.post(this.loginUrl, body, this.headers).then(
                         (response) => {
                             console.log("successful")
-                            this.$route.router.go("http://baidu.com")
+//                            this.$route.router.go("http://baidu.com")
                         },
                         (response) => {
                             console.log("fail")
                         }
                 )
             }
-        }
+        },
+        router
     })
 </script>
 
