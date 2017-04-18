@@ -54,4 +54,13 @@ public class MapController {
         return mapService.getMap(mapId);
     }
 
+    /**
+     * 根据账户ID获取所有创建地图
+     */
+    @RequestMapping(value = "/getByAccountID", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult<Object> getMapByAccountID(@RequestParam("accountID") int accountID) {
+        return mapService.getMapByAccountID(accountID);
+    }
+
 }

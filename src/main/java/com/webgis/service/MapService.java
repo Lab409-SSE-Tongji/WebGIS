@@ -35,4 +35,12 @@ public interface MapService {
      * @return
      */
     BaseResult<Object> getMap(int mapId);
+
+
+    /**
+     * 根据用户账户获取对应的获取地图
+     * @param accountID
+     * @return
+     */
+    BaseResult<Object> getMapByAccountID(int accountID);
 }
