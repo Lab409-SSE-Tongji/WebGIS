@@ -37,7 +37,7 @@ public class MapServiceImp implements MapService {
         MongoMap mongoMap = new MongoMap(mapDo.getId());
         mongoMapRepository.save(mongoMap);
 
-        return new BaseResult<>();
+        return new BaseResult<>(mapDo);
     }
 
     /**
