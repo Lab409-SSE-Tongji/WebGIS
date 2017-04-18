@@ -10,6 +10,8 @@ import com.webgis.web.dto.WebMapInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Justin on 2017/3/9.
  * 地图相关服务实现
@@ -82,5 +84,17 @@ public class MapServiceImp implements MapService {
         }
         mapDO.setLayerIds(mongoMapRepository.findByMapId(mapId).getLayerIds());
         return new BaseResult<>(mapDO);
+    }
+
+    /**
+     * 根据用户账户获取对应的获取地图
+     * @param accountID
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getMapByAccountID(int accountID) {
+        List<MapDO> mapDOs = mapMapper.getMapByAccountID(accountID);
+        return new BaseResult<>(mapDOs);
+
     }
 }

@@ -3,6 +3,9 @@ package com.webgis.mysql.mapper;
 import com.webgis.mysql.entity.MapDO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
+import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument;
+
+import java.util.List;
 
 /**
  * Created by Justin on 2017/3/9.
@@ -47,7 +50,13 @@ public interface MapMapper {
     MapDO getMapById(@Param("id") int id);
 
 
-
+    /**
+     * 根据用户账户获取对应的获取地图
+     * @param accountID
+     * @return
+     */
+    @Select("SELECT * FROM map WHERE account_id=#{accountID}")
+    List<MapDO> getMapByAccountID(@Param("accountID") int accountID);
 
 
 
