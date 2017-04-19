@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
  * 用户相关web接口
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/account")
 public class AccountController {

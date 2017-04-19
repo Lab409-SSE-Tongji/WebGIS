@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/layer")
 public class LayerController {

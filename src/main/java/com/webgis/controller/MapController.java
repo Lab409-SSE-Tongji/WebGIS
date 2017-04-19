@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * 地图相关web接口
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/map")
 public class MapController {

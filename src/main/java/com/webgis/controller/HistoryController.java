@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * 历史版本相关接口
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("history")
 public class HistoryController {
