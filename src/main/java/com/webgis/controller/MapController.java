@@ -22,7 +22,7 @@ public class MapController {
     /**
      * 新建地图
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/maps", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addMap(@RequestBody WebMapInfo webMapInfo) {
         return mapService.addMap(webMapInfo);
@@ -31,7 +31,7 @@ public class MapController {
     /**
      * 删除地图
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/maps/id", method = RequestMethod.DELETE)
     @ResponseBody
     public BaseResult<Object> deleteMap(@RequestParam("mapId") int mapId) {
         return mapService.deleteMap(mapId);
@@ -40,7 +40,7 @@ public class MapController {
     /**
      * 更新地图
      */
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/maps/id", method = RequestMethod.PATCH)
     @ResponseBody
     public BaseResult<Object> updateMap(@RequestBody WebMapInfo webMapInfo) {
         return mapService.updateMap(webMapInfo);
@@ -49,7 +49,7 @@ public class MapController {
     /**
      * 获取地图信息
      */
-    @RequestMapping(value = "/get", method = RequestMethod.POST)
+    @RequestMapping(value = "/maps/id", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getMap(@RequestParam("mapId") int mapId) {
         return mapService.getMap(mapId);
@@ -58,7 +58,7 @@ public class MapController {
     /**
      * 根据账户ID获取所有创建地图
      */
-    @RequestMapping(value = "/getByAccountID", method = RequestMethod.POST)
+    @RequestMapping(value = "/maps/accountid", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getMapByAccountID(@RequestParam("accountID") int accountID) {
         return mapService.getMapByAccountID(accountID);
