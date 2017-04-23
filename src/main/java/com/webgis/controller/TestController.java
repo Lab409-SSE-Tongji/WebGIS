@@ -60,6 +60,6 @@ public class TestController {
      */
     @RequestMapping(value = "/state", method = RequestMethod.GET)
     public String state() {
-        return "Hello backend is starting.";
+        return "Hello backend is starting. xtd.";
     }
 }
