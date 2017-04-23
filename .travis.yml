@@ -1,0 +1,6 @@
+language: java
+
+script:
+  - cat ./identity/known_hosts >> ~/.ssh/known_hosts
+  - chmod 600 ./identity/WebGisKey
+  - scp -i ./identity/WebGisKey ./build/libs/webgis-backend-0.0.1-SNAPSHOT.war root@115.159.65.170:/home/tomcat/webapps
