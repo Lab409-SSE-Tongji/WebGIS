@@ -34,7 +34,7 @@ public class AccountController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     public BaseResult<Object> register(@RequestBody WebAccount webAccount) {
         return accountService.register(webAccount);
     }
@@ -45,7 +45,7 @@ public class AccountController {
      * @return
      * @throws AuthenticationException
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/sessions", method = RequestMethod.POST)
     public String auth(@RequestBody AuthenticationRequest authenticationRequest) throws AuthenticationException {
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
@@ -64,7 +64,7 @@ public class AccountController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/accounts/id", method = RequestMethod.DELETE)
     public BaseResult<Object> deleteAccount(@RequestParam("username") String userName){
         return accountService.deleteAccount(userName);
     }
@@ -75,7 +75,7 @@ public class AccountController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/accounts/id", method = RequestMethod.PATCH)
     public BaseResult<Object> update(@RequestBody WebAccount webAccount) {
         return accountService.update(webAccount);
     }
