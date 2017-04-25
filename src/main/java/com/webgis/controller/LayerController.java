@@ -35,7 +35,7 @@ public class LayerController {
      */
     @RequestMapping(value = "/layers", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult<Object> addLayer(@RequestParam(value = "file",defaultValue = "") MultipartFile file, @RequestParam("mapId") int mapId, @RequestParam("type") String type) {
+    public BaseResult<Object> addLayer(@RequestParam(value = "file") MultipartFile file, @RequestParam("mapId") int mapId, @RequestParam("type") String type) {
         return layerService.addLayer(file, mapId, TypeEnum.getEnum(type));
     }
 
@@ -45,7 +45,7 @@ public class LayerController {
      * @param type
      * @return
      */
-    @RequestMapping(value = "/addEmptyLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/emptyLayers", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addEmptyLayer(@RequestParam("mapId") int mapId, @RequestParam("type") String type) {
         return layerService.addLayer(null, mapId, TypeEnum.getEnum(type));
