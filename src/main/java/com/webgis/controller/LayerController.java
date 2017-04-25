@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 
+@CrossOrigin
 @RestController
 @RequestMapping("/layer")
 public class LayerController {
@@ -32,7 +33,7 @@ public class LayerController {
      * @param type
      * @return
      */
-    @RequestMapping(value = "/addLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/layers", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addLayer(@RequestParam(value = "file",defaultValue = "") MultipartFile file, @RequestParam("mapId") int mapId, @RequestParam("type") String type) {
         return layerService.addLayer(file, mapId, TypeEnum.getEnum(type));
@@ -55,7 +56,7 @@ public class LayerController {
      * @param webPointLayer
      * @return
      */
-    @RequestMapping(value = "/point/updateLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/layers/point/id", method = RequestMethod.PATCH)
     @ResponseBody
     public BaseResult<Object> updatePointLayer(@RequestBody WebPointLayer webPointLayer) {
         return layerService.updateLayer(webPointLayer);
@@ -66,7 +67,7 @@ public class LayerController {
      * @param webLineLayer
      * @return
      */
-    @RequestMapping(value = "/line/updateLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/layers/line/id", method = RequestMethod.PATCH)
     @ResponseBody
     public BaseResult<Object> updateLineLayer(@RequestBody WebLineLayer webLineLayer) {
         return layerService.updateLayer(webLineLayer);
@@ -78,7 +79,7 @@ public class LayerController {
      * @param layerId
      * @return
      */
-    @RequestMapping(value = "/deleteLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/layers/id", method = RequestMethod.DELETE)
     @ResponseBody
     public BaseResult<Object> deleteLayer(@RequestParam("mapId") int mapId, @RequestParam("layerId") String layerId) {
         return layerService.deleteLayer(mapId, layerId);
@@ -89,7 +90,7 @@ public class LayerController {
      * @param mapId
      * @return
      */
-    @RequestMapping(value = "/getLayer", method = RequestMethod.POST)
+    @RequestMapping(value = "/layers", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getLayer(@RequestParam("mapId") int mapId) {
         return layerService.getLayer(mapId);

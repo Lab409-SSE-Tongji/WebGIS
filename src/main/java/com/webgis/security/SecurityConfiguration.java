@@ -60,20 +60,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         authenticationManagerBuilder
                 .userDetailsService(this.userDetailsService);
     }
-
-    private CorsConfiguration buildConfig() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); // 1
-        corsConfiguration.addAllowedHeader("x-requested-with"); // 2
-        corsConfiguration.addAllowedHeader("content-type");
-        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","OPTIONS","DELETE"));
-        return corsConfiguration;
-    }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig()); // 4
-        return new CorsFilter(source);
-    }
+//
+//    private CorsConfiguration buildConfig() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//        corsConfiguration.addAllowedOrigin("*"); // 1
+//        corsConfiguration.addAllowedHeader("x-requested-with"); // 2
+//        corsConfiguration.addAllowedHeader("content-type");
+//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","OPTIONS","DELETE"));
+//        return corsConfiguration;
+//    }
+//
+//    @Bean
+//    public CorsFilter corsFilter() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", buildConfig()); // 4
+//        return new CorsFilter(source);
+//    }
 }

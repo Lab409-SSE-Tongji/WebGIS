@@ -1,0 +1,12 @@
+language: java
+
+jdk:
+  - oraclejdk8
+
+before_install:
+ - chmod +x ./gradlew
+
+script:
+  - cat ./project/identity/known_hosts >> ~/.ssh/known_hosts
+  - chmod 600 ./project/identity/WebGisKey
+  - scp -i ./project/identity/WebGisKey ./build/libs/webgis-backend-0.0.1-SNAPSHOT.war root@115.159.65.170:/home/tomcat/webapps
