@@ -2,6 +2,7 @@ package com.webgis.service.imp;
 
 import com.webgis.domain.base.BaseDomain;
 import com.webgis.domain.cover.CommonCoverDomain;
+import com.webgis.domain.pipe.CommonPipeDomain;
 import com.webgis.enums.TypeEnum;
 import com.webgis.mongo.MongoLayerRepository;
 import com.webgis.mongo.MongoMapRepository;
@@ -58,15 +59,29 @@ public class LayerServiceImp implements LayerService {
         Date currentTime = new Date();
 
         BaseDomain baseDomain = null;
-        switch (type) {
-            case YJG:
-                baseDomain = excelService.pointExcelAnalysis(file);
-                break;
-            case XSG:
-                baseDomain = excelService.lineExcelAnalysis(file);
-                break;
-            default:
-                break;
+        if (file != null) {
+            switch (type) {
+                case YJG:
+                    baseDomain = excelService.pointExcelAnalysis(file);
+                    break;
+                case XSG:
+                    baseDomain = excelService.lineExcelAnalysis(file);
+                    break;
+                default:
+                    break;
+            }
+        }
+        else{
+            switch (type){
+                case YJG:
+                    baseDomain =  new CommonCoverDomain(null);
+                    break;
+                case XSG:
+                    baseDomain = new CommonPipeDomain(null);
+                    break;
+                default:
+                    break;
+            }
         }
         MongoLayer mongoLayer = new MongoLayer(baseDomain, currentTime, currentTime);
 

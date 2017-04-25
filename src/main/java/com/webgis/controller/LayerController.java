@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by Justin on 2017/3/16.
  *
@@ -32,8 +34,20 @@ public class LayerController {
      */
     @RequestMapping(value = "/addLayer", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult<Object> addLayer(@RequestParam("file") MultipartFile file, @RequestParam("mapId") int mapId, @RequestParam("type") String type) {
+    public BaseResult<Object> addLayer(@RequestParam(value = "file",defaultValue = "") MultipartFile file, @RequestParam("mapId") int mapId, @RequestParam("type") String type) {
         return layerService.addLayer(file, mapId, TypeEnum.getEnum(type));
+    }
+
+    /**
+     * 新建空的图层接口
+     * @param mapId
+     * @param type
+     * @return
+     */
+    @RequestMapping(value = "/addEmptyLayer", method = RequestMethod.POST)
+    @ResponseBody
+    public BaseResult<Object> addEmptyLayer(@RequestParam("mapId") int mapId, @RequestParam("type") String type) {
+        return layerService.addLayer(null, mapId, TypeEnum.getEnum(type));
     }
 
     /**
