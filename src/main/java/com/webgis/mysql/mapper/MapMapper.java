@@ -51,12 +51,13 @@ public interface MapMapper {
 
 
     /**
-     * 根据用户账户及文件夹获取对应的获取地图
-     * @param accountID
+     * 根据账户ID及当前文件夹ID获取所有创建地图
+     * @param accountId
+     * @param folderId
      * @return
      */
-    @Select("SELECT * FROM map WHERE account_id=#{accountID} and folder=#{folder}")
-    List<MapDO> getMapByAccountIDandFolderID(@Param("accountID") int accountID, @Param("folder") int folder);
+    @Select("SELECT * FROM map WHERE account_id=#{accountId} and folder=#{folderId}")
+    List<MapDO> getMapByAccountIdandFolderId(@Param("accountId") int accountId, @Param("folderId") int folderId);
 
 
 

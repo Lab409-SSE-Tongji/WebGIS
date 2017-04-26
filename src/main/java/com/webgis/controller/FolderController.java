@@ -19,16 +19,19 @@ public class FolderController {
 
     /**
      * 新建文件夹
+     * @param webFolder
+     * @return
      */
     @RequestMapping(value = "/folders", method = RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addFolder(@RequestBody WebFolder webFolder) {
-//        return new BaseResult<>(500, "该地图不存在");
         return folderService.addFolder(webFolder);
     }
 
     /**
      * 删除文件夹
+     * @param folderId
+     * @return
      */
     @RequestMapping(value = "/folders/id", method = RequestMethod.DELETE)
     @ResponseBody
@@ -38,6 +41,8 @@ public class FolderController {
 
     /**
      * 更新文件夹
+     * @param webFolder
+     * @return
      */
     @RequestMapping(value = "/folders/id", method = RequestMethod.PATCH)
     @ResponseBody
@@ -47,6 +52,8 @@ public class FolderController {
 
     /**
      * 获取文件夹信息
+     * @param folderId
+     * @return
      */
     @RequestMapping(value = "/folders/id", method = RequestMethod.GET)
     @ResponseBody
@@ -56,6 +63,8 @@ public class FolderController {
 
     /**
      * 根据用户账户及上层文件夹信息获取对应的本级文件夹
+     * @param accountId
+     * @param upperFolder
      */
     @RequestMapping(value = "/folders/accountidandupperfolder", method = RequestMethod.GET)
     @ResponseBody

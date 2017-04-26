@@ -22,6 +22,8 @@ public class MapController {
 
     /**
      * 新建地图
+     * @param webMapInfo
+     * @return
      */
     @RequestMapping(value = "/maps", method = RequestMethod.POST)
     @ResponseBody
@@ -31,6 +33,8 @@ public class MapController {
 
     /**
      * 删除地图
+     * @param mapId
+     * @return
      */
     @RequestMapping(value = "/maps/id", method = RequestMethod.DELETE)
     @ResponseBody
@@ -40,6 +44,8 @@ public class MapController {
 
     /**
      * 更新地图
+     * @param webMapInfo
+     * @return
      */
     @RequestMapping(value = "/maps/id", method = RequestMethod.PATCH)
     @ResponseBody
@@ -49,6 +55,8 @@ public class MapController {
 
     /**
      * 获取地图信息
+     * @param mapId
+     * @return
      */
     @RequestMapping(value = "/maps/id", method = RequestMethod.GET)
     @ResponseBody
@@ -57,12 +65,15 @@ public class MapController {
     }
 
     /**
-     * 根据账户ID获取所有创建地图
+     * 根据账户ID及当前文件夹ID获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @return
      */
     @RequestMapping(value = "/maps/accountidandfolderid", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult<Object> getMapByAccountIDandFolderID(@RequestParam("accountId") int accountId, @Param("folderId") int folderId) {
-        return mapService.getMapByAccountIDandFolderID(accountId, folderId);
+    public BaseResult<Object> getMapByAccountIdandFolderId(@RequestParam("accountId") int accountId, @Param("folderId") int folderId) {
+        return mapService.getMapByAccountIdandFolderId(accountId, folderId);
     }
 
 }

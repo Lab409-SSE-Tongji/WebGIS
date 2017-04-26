@@ -87,13 +87,14 @@ public class MapServiceImp implements MapService {
     }
 
     /**
-     * 根据用户账户及文件夹获取对应的获取地图
-     * @param accountID
+     * 根据账户ID及当前文件夹ID获取所有创建地图
+     * @param accountId
+     * @param folderId
      * @return
      */
     @Override
-    public BaseResult<Object> getMapByAccountIDandFolderID(int accountID, int folderID) {
-        List<MapDO> mapDOs = mapMapper.getMapByAccountIDandFolderID(accountID, folderID);
+    public BaseResult<Object> getMapByAccountIdandFolderId(int accountId, int folderId) {
+        List<MapDO> mapDOs = mapMapper.getMapByAccountIdandFolderId(accountId, folderId);
         return new BaseResult<>(mapDOs);
 
     }

@@ -38,9 +38,10 @@ public interface MapService {
 
 
     /**
-     * 根据用户账户获取对应的获取地图
-     * @param accountID
+     * 根据账户ID及当前文件夹ID获取所有创建地图
+     * @param accountId
+     * @param folderId
      * @return
      */
-    BaseResult<Object> getMapByAccountIDandFolderID(int accountID, int folderID);
+    BaseResult<Object> getMapByAccountIdandFolderId(int accountId, int folderId);
 }
