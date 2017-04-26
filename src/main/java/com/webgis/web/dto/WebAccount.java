@@ -1,5 +1,7 @@
 package com.webgis.web.dto;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.io.Serializable;
 
 /**
@@ -13,7 +15,14 @@ public class WebAccount implements Serializable{
     private String username;
     private String password;
 
-    public WebAccount() {
+    public WebAccount(String name, String username, String password) {
+        setName(name);
+        setUsername(username);
+        setPassword(password);
+    }
+
+    public WebAccount(){
+
     }
 
     public int getId() {
@@ -41,7 +50,8 @@ public class WebAccount implements Serializable{
     }
 
     public String getPassword() {
-        return password;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return passwordEncoder.encode(password);
     }
 
     public void setPassword(String password) {
@@ -51,9 +61,9 @@ public class WebAccount implements Serializable{
     @Override
     public String toString() {
         return "AccountDTO{" +
-                "name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "name='" + getName() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 '}';
     }
 }

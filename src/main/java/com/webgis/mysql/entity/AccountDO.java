@@ -16,9 +16,9 @@ public class AccountDO extends BaseDO {
     private String password;
 
     public AccountDO(WebAccount webAccount) {
-        this.name = webAccount.getName();
-        this.username = webAccount.getUsername();
-        this.password = webAccount.getPassword();
+        setName(webAccount.getName());
+        setUsername(webAccount.getUsername());
+        setPassword(webAccount.getPassword());
     }
 
     public AccountDO() {
@@ -59,9 +59,9 @@ public class AccountDO extends BaseDO {
     @Override
     public String toString() {
         return "AccountDO{" +
-                "name='" + name + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                "name='" + getName() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", password='" + getPassword() + '\'' +
                 '}';
     }
 }
