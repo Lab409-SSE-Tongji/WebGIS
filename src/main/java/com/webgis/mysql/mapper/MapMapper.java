@@ -20,8 +20,8 @@ public interface MapMapper {
      * @param mapDO
      * @return
      */
-    @Insert("INSERT INTO map (account_id, name, description, create_time, update_time) " +
-            "VALUES (#{account_id}, #{name}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+    @Insert("INSERT INTO map (account_id, name, folder, description, create_time, update_time) " +
+            "VALUES (#{account_id}, #{name}, #{folder}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
     @Options(useGeneratedKeys=true, keyProperty = "id")
     int insert(MapDO mapDO);
 
@@ -38,7 +38,7 @@ public interface MapMapper {
      * @param mapDO
      * @return
      */
-    @Update("UPDATE map SET name=#{name}, description=#{description}, update_time=CURRENT_TIMESTAMP WHERE id=#{id}")
+    @Update("UPDATE map SET name=#{name}, folder=#{folder}, description=#{description}, update_time=CURRENT_TIMESTAMP WHERE id=#{id}")
     int update(MapDO mapDO);
 
     /**
@@ -51,12 +51,12 @@ public interface MapMapper {
 
 
     /**
-     * 根据用户账户获取对应的获取地图
+     * 根据用户账户及文件夹获取对应的获取地图
      * @param accountID
      * @return
      */
-    @Select("SELECT * FROM map WHERE account_id=#{accountID}")
-    List<MapDO> getMapByAccountID(@Param("accountID") int accountID);
+    @Select("SELECT * FROM map WHERE account_id=#{accountID} and folder=#{folder}")
+    List<MapDO> getMapByAccountIDandFolderID(@Param("accountID") int accountID, @Param("folder") int folder);
 
 
 

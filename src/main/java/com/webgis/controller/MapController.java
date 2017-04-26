@@ -3,6 +3,7 @@ package com.webgis.controller;
 import com.webgis.service.MapService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebMapInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,10 +59,10 @@ public class MapController {
     /**
      * 根据账户ID获取所有创建地图
      */
-    @RequestMapping(value = "/maps/accountid", method = RequestMethod.GET)
+    @RequestMapping(value = "/maps/accountidandfolderid", method = RequestMethod.GET)
     @ResponseBody
-    public BaseResult<Object> getMapByAccountID(@RequestParam("accountID") int accountID) {
-        return mapService.getMapByAccountID(accountID);
+    public BaseResult<Object> getMapByAccountIDandFolderID(@RequestParam("accountId") int accountId, @Param("folderId") int folderId) {
+        return mapService.getMapByAccountIDandFolderID(accountId, folderId);
     }
 
 }

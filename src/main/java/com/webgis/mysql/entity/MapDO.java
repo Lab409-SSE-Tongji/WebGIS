@@ -13,8 +13,10 @@ import java.util.List;
 public class MapDO extends BaseDO {
     private Integer account_id;
     private String name;
+    private Integer folder;
     private String description;
     private List<String> layerIds;
+
 
     public MapDO() {
 
@@ -24,20 +26,23 @@ public class MapDO extends BaseDO {
         this.id = webMapInfo.getId();
         this.account_id = webMapInfo.getAccountId();
         this.name = webMapInfo.getName();
+        this.folder = webMapInfo.getFolder();
         this.description = webMapInfo.getDescription();
     }
 
-    public MapDO(Integer account_id, String name, String description, List<String> layerIds) {
+    public MapDO(Integer account_id, String name, Integer folder, String description, List<String> layerIds) {
         this.account_id = account_id;
         this.name = name;
+        this.folder = folder;
         this.description = description;
         this.layerIds = layerIds;
     }
 
-    public MapDO(Integer id, Timestamp create_time, Timestamp update_time, Integer account_id, String name, String description, List<String> layerIds) {
+    public MapDO(Integer id, Timestamp create_time, Timestamp update_time, Integer account_id, String name, Integer folder, String description, List<String> layerIds) {
         super(id, create_time, update_time);
         this.account_id = account_id;
         this.name = name;
+        this.folder = folder;
         this.description = description;
         this.layerIds = layerIds;
     }
@@ -56,6 +61,14 @@ public class MapDO extends BaseDO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getFolder() {
+        return folder;
+    }
+
+    public void setFolder(Integer folder) {
+        this.folder = folder;
     }
 
     public String getDescription() {

@@ -3,19 +3,15 @@ package com.webgis.web.dto;
 import java.io.Serializable;
 
 /**
- * Created by Justin on 2017/3/8.
- * map信息相关 数据传输对象
+ * Created by cz on 2017/4/25.
  */
-
-public class WebMapInfo implements Serializable {
+public class WebFolder {
     private int id;
     private int accountId;
     private String name;
-    private Integer folder;
-    private String description;
+    private Integer upper_folder;
 
-
-    public WebMapInfo() {
+    public WebFolder() {
     }
 
     public int getId() {
@@ -42,15 +38,7 @@ public class WebMapInfo implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
-    }
+    public Integer getUpper_folder() {return upper_folder; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getFolder() {return folder; }
-
-    public void setFolder(Integer folder) { this.folder = folder; }
+    public void setUpper_folder(Integer upper_folder) { this.upper_folder = upper_folder; }
 }

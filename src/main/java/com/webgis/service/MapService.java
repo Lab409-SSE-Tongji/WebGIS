@@ -42,5 +42,5 @@ public interface MapService {
      * @param accountID
      * @return
      */
-    BaseResult<Object> getMapByAccountID(int accountID);
+    BaseResult<Object> getMapByAccountIDandFolderID(int accountID, int folderID);
 }
