@@ -24,7 +24,7 @@ public class HistoryController {
      * @param webHistory
      * @return
      */
-    @RequestMapping(value = "add", method = RequestMethod.POST)
+    @RequestMapping(value="/histories",method=RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addHistory(@RequestBody WebHistory webHistory) {
         return historyService.addHistory(webHistory);
@@ -35,7 +35,7 @@ public class HistoryController {
      * @param historyId
      * @return
      */
-    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    @RequestMapping(value="/histories/id",method=RequestMethod.DELETE)
     @ResponseBody
     public BaseResult<Object> deleteHistory(@RequestParam("mapId") int mapId, @RequestParam("historyId") String historyId) {
         return historyService.deleteHistory(mapId, historyId);
@@ -46,7 +46,7 @@ public class HistoryController {
      * @param historyId
      * @return
      */
-    @RequestMapping(value = "get", method = RequestMethod.POST)
+    @RequestMapping(value = "/histories/id", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getHistory(@RequestParam("historyId") String historyId) {
         return historyService.getHistory(historyId);
