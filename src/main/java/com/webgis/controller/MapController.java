@@ -1,11 +1,15 @@
 package com.webgis.controller;
 
+import com.webgis.mysql.entity.MapDO;
 import com.webgis.service.MapService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebMapInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Justin on 2017/3/8.
@@ -76,4 +80,16 @@ public class MapController {
         return mapService.getMapByAccountIdandFolderId(accountId, folderId);
     }
 
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @param pageId
+     * @return
+     */
+    @RequestMapping(value = "/maps/accountidandfolderidandpageid", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId ,int pageId) {
+        return mapService.getMapByAccountIdandFolderIdandPageId(accountId, folderId, pageId);
+    }
 }

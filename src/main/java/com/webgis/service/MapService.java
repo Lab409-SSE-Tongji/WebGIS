@@ -44,4 +44,14 @@ public interface MapService {
      * @return
      */
     BaseResult<Object> getMapByAccountIdandFolderId(int accountId, int folderId);
+
+
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @param pageId
+     * @return
+     */
+    BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId);
 }

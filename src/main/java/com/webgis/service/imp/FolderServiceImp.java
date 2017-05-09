@@ -74,6 +74,7 @@ public class FolderServiceImp implements FolderService {
         }
         FolderDO folderDO = new FolderDO();
         folderDO = folderMapper.getFolderById(folderId);
+
         return new BaseResult<>(folderDO);
     }
 

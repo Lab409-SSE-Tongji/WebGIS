@@ -10,8 +10,7 @@ import com.webgis.web.dto.WebMapInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+import java.util.*;
 /**
  * Created by Justin on 2017/3/9.
  * 地图相关服务实现
@@ -98,4 +97,30 @@ public class MapServiceImp implements MapService {
         return new BaseResult<>(mapDOs);
 
     }
+
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取地图总数及当前页数下的地图
+     * @param accountId
+     * @param folderId
+     * @param pageId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId){
+        Map m1 = new HashMap();
+        int sum = mapMapper.getMapNumByAccountIdandFolderId(accountId, folderId);
+        int pageNum;
+        if(sum % 10 == 0) {
+            pageNum = sum / 10;
+        }else
+        {
+            pageNum = sum / 10 + 1;
+        }
+        int pageNow = (pageId - 1) * 10;
+        m1.put("pageNum", pageNum);
+        List<MapDO> mapDOs = mapMapper.getMapByAccountIdandFolderIdandPageId(accountId, folderId, pageNow);
+        m1.put("map", mapDOs);
+        return new BaseResult<>(m1);
+    }
+
 }
