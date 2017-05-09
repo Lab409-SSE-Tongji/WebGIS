@@ -17,7 +17,6 @@ public class MapDO extends BaseDO {
     private String description;
     private List<String> layerIds;
 
-
     public MapDO() {
 
     }
@@ -86,4 +85,5 @@ public class MapDO extends BaseDO {
     public void setLayerIds(List<String> layerIds) {
         this.layerIds = layerIds;
     }
+
 }

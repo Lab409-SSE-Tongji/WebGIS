@@ -14,7 +14,6 @@ public class WebMapInfo implements Serializable {
     private Integer folder;
     private String description;
 
-
     public WebMapInfo() {
     }
 

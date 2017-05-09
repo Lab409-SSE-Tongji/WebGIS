@@ -59,12 +59,24 @@ public interface MapMapper {
     @Select("SELECT * FROM map WHERE account_id=#{accountId} and folder=#{folderId}")
     List<MapDO> getMapByAccountIdandFolderId(@Param("accountId") int accountId, @Param("folderId") int folderId);
 
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @param pageNow
+     * @return
+     */
+    @Select("SELECT * FROM map WHERE account_id=#{accountId} and folder=#{folderId} limit #{pageNow},10")
+    List<MapDO> getMapByAccountIdandFolderIdandPageId(@Param("accountId") int accountId, @Param("folderId") int folderId, @Param("pageNow") int pageNow);
 
-
-
-
-
-
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @return
+     */
+    @Select("SELECT count(*) FROM map WHERE account_id=#{accountId} and folder=#{folderId}")
+    int getMapNumByAccountIdandFolderId(@Param("accountId") int accountId, @Param("folderId") int folderId);
 
     /**
      * 重置数据库

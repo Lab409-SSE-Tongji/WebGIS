@@ -14,6 +14,7 @@ public class FolderDO extends BaseDO{
     private String name;
     private Integer upper_folder;
 
+
     public FolderDO() {
 
     }
@@ -37,6 +38,8 @@ public class FolderDO extends BaseDO{
         this.name = name;
         this.upper_folder = upper_folder;
     }
+
+
 
     public Integer getAccount_id() {
         return account_id;
