@@ -1,5 +1,6 @@
 package com.webgis.security;
 
+import com.webgis.security.jwt.extractor.TokenExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -8,14 +9,20 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
+import java.util.regex.Matcher;
 
 /**
  * @author 谢天帝
@@ -25,28 +32,35 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    public static final String HEADER_TOKEN = "X-Auth-Token";
+
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired private TokenExtractor tokenExtractor;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
+
         http
-            .authorizeRequests()
-              .antMatchers("/account/register", "/account/login", "/**").permitAll()      // FOR TEST, NO AUTH.
+                .authorizeRequests()
+                .antMatchers("/account/register", "/account/token").permitAll()      // FOR TEST, NO AUTH.
 //                .antMatchers("/account/register", "/account/login", "/node_modules/**", "/font-awesome/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/login.html")
-                .permitAll();
+                .and().formLogin()
+                .loginPage("/login.html").permitAll();
+        http
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         http.headers().cacheControl();
+
     }
 
     /**
      * 指定内存用户，For test.
+     *
      * @param auth
      * @throws Exception
      */
@@ -66,11 +80,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*"); // 1
-        corsConfiguration.addAllowedHeader("x-requested-with"); // 2
+        corsConfiguration.addAllowedHeader("x-requeed-stwith"); // 2
         corsConfiguration.addAllowedHeader("content-type");
         corsConfiguration.addAllowedMethod("*");
 //        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","OPTIONS","DELETE"));
         return corsConfiguration;
+    }
+
+    @Bean
+    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+        return new JwtAuthenticationTokenFilter(tokenExtractor);
     }
 
     @Bean
