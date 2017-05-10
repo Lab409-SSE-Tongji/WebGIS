@@ -45,8 +45,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/account/register", "/account/token").permitAll()      // FOR TEST, NO AUTH.
-//                .antMatchers("/account/register", "/account/login", "/node_modules/**", "/font-awesome/**", "/css/**").permitAll()
+                .antMatchers("/**").permitAll()      // FOR TEST, NO AUTH.
+//                .antMatchers("/account/register", "/account/token", "/node_modules/**", "/font-awesome/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login.html").permitAll();
