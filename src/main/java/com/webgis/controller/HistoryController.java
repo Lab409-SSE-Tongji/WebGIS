@@ -42,7 +42,7 @@ public class HistoryController {
     }
 
     /**
-     * 获取历史版本接口
+     * 根据historyID获取历史版本地图接口
      * @param historyId
      * @return
      */

@@ -1,6 +1,7 @@
 package com.webgis.service.imp;
 
 import com.webgis.mongo.MongoMapRepository;
+import com.webgis.mongo.MongoHistoryRepository;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.mysql.entity.MapDO;
 import com.webgis.mysql.mapper.MapMapper;
@@ -24,6 +25,8 @@ public class MapServiceImp implements MapService {
 
     @Autowired
     private MongoMapRepository mongoMapRepository;
+
+    private MongoHistoryRepository mongoHistoryRepository;
 
     /**
      * 新建地图
@@ -82,6 +85,34 @@ public class MapServiceImp implements MapService {
             return new BaseResult<>(500, "该地图不存在");
         }
         mapDO.setLayerIds(mongoMapRepository.findByMapId(mapId).getLayerIds());
+        return new BaseResult<>(mapDO);
+    }
+
+
+    /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getMapByAccountId(int accountId) {
+        List<MapDO> mapDOs = mapMapper.getMapByAccountId(accountId);
+        return new BaseResult<>(mapDOs);
+    }
+
+    /**
+     * 根据地图ID获取历史地图id
+     * @param mapId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getHistoryIdandDateByMapId(int mapId) {
+        MapDO mapDO = mapMapper.getMapById(mapId);
+        if (mapDO == null) {
+            return new BaseResult<>(500, "该地图不存在");
+        }
+        mapDO.setHistoryIds(mongoMapRepository.findByMapId(mapId).getHistoryIds());
+        mapDO.setHistoryDates(mongoMapRepository.findByMapId(mapId).getHistoryDates());
         return new BaseResult<>(mapDO);
     }
 

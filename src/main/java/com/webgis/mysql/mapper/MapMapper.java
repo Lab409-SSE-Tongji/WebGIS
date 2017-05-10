@@ -49,6 +49,13 @@ public interface MapMapper {
     @Select("SELECT * FROM map WHERE id=#{id}")
     MapDO getMapById(@Param("id") int id);
 
+    /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    @Select("SELECT * FROM map WHERE account_id=#{accountId}")
+    List<MapDO> getMapByAccountId(@Param("accountId") int accountId);
 
     /**
      * 根据账户ID及当前文件夹ID获取所有创建地图
