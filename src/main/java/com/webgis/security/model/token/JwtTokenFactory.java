@@ -2,6 +2,7 @@ package com.webgis.security.model.token;
 
 import com.webgis.security.WebGISUser;
 import com.webgis.security.config.JwtSettings;
+import com.webgis.security.model.UserContext;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * Created by CCMEOW on 2017/5/8.
@@ -31,9 +33,16 @@ public class JwtTokenFactory {
      *
      * @return
      */
-    public AccessJwtToken createAccessJwtToken(String username) {
+    public AccessJwtToken createAccessJwtToken(UserContext userContext) {
 
-        Claims claims = Jwts.claims().setSubject(username);
+        if (StringUtils.isBlank(userContext.getUsername()))
+            throw new IllegalArgumentException("Cannot create JWT Token without username");
+
+        if (userContext.getAuthorities() == null || userContext.getAuthorities().isEmpty())
+            throw new IllegalArgumentException("User doesn't have any privileges");
+
+        Claims claims = Jwts.claims().setSubject(userContext.getUsername());
+        claims.put("scopes", userContext.getAuthorities().stream().map(s -> s.toString()).collect(Collectors.toList()));
 
         LocalDateTime currentTime = LocalDateTime.now();
 

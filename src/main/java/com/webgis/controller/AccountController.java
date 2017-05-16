@@ -2,6 +2,7 @@ package com.webgis.controller;
 
 import com.webgis.security.AuthenticationRequest;
 import com.webgis.security.SecurityConfiguration;
+import com.webgis.security.model.UserContext;
 import com.webgis.security.model.token.JwtToken;
 import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
@@ -14,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,26 +50,32 @@ public class AccountController {
         return accountService.register(webAccount);
     }
 
-    /**
-     * 用户登录
-     * @param authenticationRequest
-     * @return
-     * @throws AuthenticationException
-     */
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
-    public String auth(@RequestBody AuthenticationRequest authenticationRequest,HttpServletResponse response) throws AuthenticationException {
-        // Perform the security
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
-                        authenticationRequest.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        JwtToken accessToken = tokenFactory.createAccessJwtToken(authenticationRequest.getUsername());
-        this.setToken(response,accessToken.getToken());
-        return "Login successfully";
-    }
+//    /**
+//     * 用户登录
+//     * @param authenticationRequest
+//     * @return
+//     * @throws AuthenticationException
+//     */
+//    @RequestMapping(value = "/token", method = RequestMethod.POST)
+//    public String auth(@RequestBody AuthenticationRequest authenticationRequest,HttpServletResponse response) throws AuthenticationException {
+//        // Perform the security
+//        System.out.println("login controller");
+//        final Authentication authentication = authenticationManager.authenticate(
+//                new UsernamePasswordAuthenticationToken(
+//                        authenticationRequest.getUsername(),
+//                        authenticationRequest.getPassword()
+//                )
+//        );
+//
+//        System.out.println("authenticate in controller");
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        JwtToken jwtToken =  accountService.login(authenticationRequest.getUsername(),authenticationRequest.getPassword());
+//        System.out.println("generate jwtToken");
+//        response.setStatus(HttpStatus.OK.value());
+//        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+//        response.setHeader(SecurityConfiguration.HEADER_TOKEN, jwtToken.getToken());
+//        return "Login successfully";
+//    }
 
     /**
      * 删除用户
@@ -92,15 +100,7 @@ public class AccountController {
         return accountService.update(webAccount);
     }
 
-    /**
-     * Sets the token.
-     *
-     * @param response the response
-     * @param token    the token
-     */
-    private void setToken(HttpServletResponse response, String token) {
-        response.setStatus(HttpStatus.OK.value());
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setHeader(SecurityConfiguration.HEADER_TOKEN, token);
+    private void test(){
+        System.out.println("test controller");
     }
 }
