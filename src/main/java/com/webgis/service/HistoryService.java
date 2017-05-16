@@ -30,4 +30,11 @@ public interface HistoryService {
      * @return
      */
     BaseResult<Object> getHistory(String historyId);
+
+    /**
+     * 获取所有历史版本接口
+     * @param mapId
+     * @return
+     */
+    BaseResult<Object> getAllHistory(int mapId);
 }
