@@ -58,7 +58,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(REGISTER_ENTRY_POINT).permitAll()
                 .antMatchers(LOGIN_ENTRY_POINT).permitAll()
                 .antMatchers("/console").permitAll()// FOR TEST
-//                .antMatchers("/account/register", "/account/login", "/node_modules/**", "/font-awesome/**", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login.html").permitAll();

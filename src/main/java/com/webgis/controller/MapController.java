@@ -69,6 +69,28 @@ public class MapController {
     }
 
     /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    @RequestMapping(value = "/maps/accountid", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getMapByAccountId(@RequestParam("accountId") int accountId) {
+        return mapService.getMapByAccountId(accountId);
+    }
+
+    /**
+     * 根据地图ID获取历史地图ID和DATE
+     * @param mapId
+     * @return
+     */
+    @RequestMapping(value = "/maps/mapid", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getHistoryIdByMapId(@RequestParam("mapId") int mapId) {
+        return mapService.getHistoryIdandDateByMapId(mapId);
+    }
+
+    /**
      * 根据账户ID及当前文件夹ID获取所有创建地图
      * @param accountId
      * @param folderId

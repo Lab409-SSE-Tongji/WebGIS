@@ -36,6 +36,19 @@ public interface MapService {
      */
     BaseResult<Object> getMap(int mapId);
 
+    /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    BaseResult<Object> getMapByAccountId(int accountId);
+
+    /**
+     * 根据地图ID获取历史地图ID和DATE
+     * @param mapId
+     * @return
+     */
+    BaseResult<Object> getHistoryIdandDateByMapId(int mapId);
 
     /**
      * 根据账户ID及当前文件夹ID获取所有创建地图
