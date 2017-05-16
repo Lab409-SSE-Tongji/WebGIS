@@ -1,11 +1,15 @@
 package com.webgis.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.webgis.security.ajax.AjaxAuthenticationProvider;
+import com.webgis.security.ajax.AjaxLoginProcessingFilter;
+import com.webgis.security.jwt.JwtAuthenticationProvider;
+import com.webgis.security.jwt.JwtAuthenticationTokenFilter;
+import com.webgis.security.jwt.SkipPathRequestMatcher;
 import com.webgis.security.jwt.extractor.TokenExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,16 +17,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
-import java.util.regex.Matcher;
+import java.util.List;
 
 /**
  * @author 谢天帝
@@ -37,6 +39,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired private TokenExtractor tokenExtractor;
+    @Autowired private AjaxAuthenticationProvider ajaxAuthenticationProvider;
+    @Autowired private JwtAuthenticationProvider jwtAuthenticationProvider;
+    @Autowired private ObjectMapper objectMapper;
+
+    @Autowired private AuthenticationSuccessHandler successHandler;
+    public static final String LOGIN_ENTRY_POINT = "/auth/token";
+    public static final String REGISTER_ENTRY_POINT = "/account/accounts";
+    public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/**";
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,12 +55,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()      // FOR TEST, NO AUTH.
-//                .antMatchers("/account/register", "/account/token", "/node_modules/**", "/font-awesome/**", "/css/**").permitAll()
+                .antMatchers(REGISTER_ENTRY_POINT).permitAll()
+                .antMatchers(LOGIN_ENTRY_POINT).permitAll()
+                .antMatchers("/console").permitAll()// FOR TEST
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login.html").permitAll();
         http
+                .addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
@@ -87,9 +99,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return corsConfiguration;
     }
 
+    protected AjaxLoginProcessingFilter ajaxLoginProcessingFilterBean() throws Exception {
+        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(LOGIN_ENTRY_POINT,successHandler,objectMapper);
+        filter.setAuthenticationManager(authenticationManager());
+        return filter;
+    }
+
     @Bean
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
-        return new JwtAuthenticationTokenFilter(tokenExtractor);
+        List<String> pathsToSkip = Arrays.asList(REGISTER_ENTRY_POINT,LOGIN_ENTRY_POINT);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
+        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter(tokenExtractor,matcher);
+        filter.setAuthenticationManager(authenticationManager());
+        return filter;
     }
 
     @Bean
@@ -110,5 +132,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(11);
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth.authenticationProvider(ajaxAuthenticationProvider);
+        auth.authenticationProvider(jwtAuthenticationProvider);
     }
 }

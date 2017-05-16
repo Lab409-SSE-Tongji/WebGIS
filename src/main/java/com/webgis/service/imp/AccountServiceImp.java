@@ -2,10 +2,20 @@ package com.webgis.service.imp;
 
 import com.webgis.mysql.entity.AccountDO;
 import com.webgis.mysql.mapper.AccountMapper;
+import com.webgis.security.WebGISUser;
+import com.webgis.security.model.UserContext;
+import com.webgis.security.model.token.JwtToken;
+import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -19,6 +29,14 @@ public class AccountServiceImp implements AccountService {
     @Autowired
     private AccountMapper accountMapper;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JwtTokenFactory tokenFactory;
 
     /**
      * 用户注册
