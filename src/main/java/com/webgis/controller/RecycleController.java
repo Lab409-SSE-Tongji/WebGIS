@@ -34,7 +34,7 @@ public class RecycleController {
     /**
      * 在回收站里删除地图
      */
-    @RequestMapping(value = "/recycle/id", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/recycles/id", method = RequestMethod.DELETE)
     @ResponseBody
     public BaseResult<Object> deleteMap(@RequestParam("mapId") int mapId){
         return recycleService.deleteMap(mapId);

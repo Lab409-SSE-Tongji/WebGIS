@@ -1,6 +1,7 @@
 package com.webgis.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.javafx.fxml.expression.Expression;
 import com.webgis.security.ajax.AjaxAuthenticationProvider;
 import com.webgis.security.ajax.AjaxLoginProcessingFilter;
 import com.webgis.security.jwt.JwtAuthenticationProvider;
@@ -55,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers(REGISTER_ENTRY_POINT).permitAll()
-                .antMatchers(LOGIN_ENTRY_POINT).permitAll()
+//                .antMatchers(REGISTER_ENTRY_POINT).permitAll()
+//                .antMatchers(LOGIN_ENTRY_POINT).permitAll()
+                .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).permitAll()
                 .antMatchers("/console").permitAll()// FOR TEST
                 .anyRequest().authenticated()
                 .and().formLogin()
@@ -104,8 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
-
-    @Bean
+    
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         List<String> pathsToSkip = Arrays.asList(REGISTER_ENTRY_POINT,LOGIN_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
