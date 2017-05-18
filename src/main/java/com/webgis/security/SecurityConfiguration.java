@@ -61,9 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login.html").permitAll();
-        http
-                .addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+       // http
+                //.addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         http.headers().cacheControl();
