@@ -24,6 +24,7 @@ public class MapServiceImp implements MapService {
     private MapMapper mapMapper;
 
     @Autowired
+    
     private MongoMapRepository mongoMapRepository;
 
     private MongoHistoryRepository mongoHistoryRepository;
