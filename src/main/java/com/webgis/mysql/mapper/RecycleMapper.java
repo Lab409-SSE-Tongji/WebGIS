@@ -14,9 +14,9 @@ public interface RecycleMapper {
     /**
      * 将地图添加到回收站
      */
-    @Insert("INSERT INTO recyclestation (account_id, name, folder, description, create_time, update_time) " +
-            "VALUES (#{account_id}, #{name}, #{folder}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
-    @Options(useGeneratedKeys=true, keyProperty = "id")
+    @Insert("INSERT INTO recyclestation (id,account_id, name, folder, description, create_time, update_time) " +
+            "VALUES (#{id},#{account_id}, #{name}, #{folder}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+   // @Options(useGeneratedKeys=true, keyProperty = "id")
     int insert(MapDO mapDO);
     /**
      * 根据账户ID获取回收站内所有地图

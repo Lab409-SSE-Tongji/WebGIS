@@ -24,7 +24,13 @@ public interface MapMapper {
             "VALUES (#{account_id}, #{name}, #{folder}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
     @Options(useGeneratedKeys=true, keyProperty = "id")
     int insert(MapDO mapDO);
-
+    /**
+     * 从回收站恢复地图
+     */
+    @Insert("INSERT INTO map (id,account_id, name, folder, description, create_time, update_time) " +
+            "VALUES (#{id},#{account_id}, #{name}, #{folder}, #{description}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+    // @Options(useGeneratedKeys=true, keyProperty = "id")
+    int recover(MapDO mapDO);
     /**
      * 删除地图
      * @param id
