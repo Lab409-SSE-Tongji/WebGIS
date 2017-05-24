@@ -56,7 +56,13 @@ public interface FolderMapper {
     @Select("SELECT * FROM folder WHERE account_id=#{accountId} and upper_folder=#{upperFolder}")
     List<FolderDO> getFolderByAccountIDandUpperFolder(@Param("accountId") int accountId, @Param("upperFolder") int upperFolder);
 
-
+    /**
+     * 根据上层文件夹信息获取对应的本级文件夹
+     * @param upperFolder
+     * @return
+     */
+    @Select("SELECT id FROM folder WHERE upper_folder=#{upperFolder}")
+    List<Integer> getFoldersByUpperFolder(@Param("upperFolder") int upperFolder);
 
 
 

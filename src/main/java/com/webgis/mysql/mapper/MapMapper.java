@@ -92,6 +92,16 @@ public interface MapMapper {
     int getMapNumByAccountIdandFolderId(@Param("accountId") int accountId, @Param("folderId") int folderId);
 
     /**
+     * 根据当前文件夹ID获取所有创建地图
+     * @param folderId
+     * @return
+     */
+    @Select("SELECT id FROM map WHERE folder=#{folderId} ")
+    List<Integer> getMapNumByFolderId(@Param("folderId") int folderId);
+
+
+
+    /**
      * 重置数据库
      * @return
      */
