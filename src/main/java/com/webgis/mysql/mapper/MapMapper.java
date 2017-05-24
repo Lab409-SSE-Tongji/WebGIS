@@ -99,7 +99,24 @@ public interface MapMapper {
     @Select("SELECT id FROM map WHERE folder=#{folderId} ")
     List<Integer> getMapNumByFolderId(@Param("folderId") int folderId);
 
+    /**
+     * 检测是否已存在该命名的地图
+     * @param folderId
+     * @param mapName
+     * @return
+     */
+    @Select("SELECT id FROM map WHERE name=#{mapName} and folder=#{folderId}")
+    List<Integer> getMapNumByMapNameandFolderId(@Param("mapName") String mapName, @Param("folderId") int folderId);
 
+    /**
+     * 检测是否除本身之外已存在该命名的地图
+     * @param folderId
+     * @param mapName
+     * @param mapId
+     * @return
+     */
+    @Select("SELECT id FROM map WHERE name=#{mapName} and folder=#{folderId} and id<>#{mapId}")
+    List<Integer> getMapNumByMapNameandFolderIdExceptMapId(@Param("mapName") String mapName, @Param("folderId") int folderId, @Param("mapId") int mapId);
 
     /**
      * 重置数据库
