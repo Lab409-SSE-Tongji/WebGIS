@@ -36,6 +36,9 @@ public class FolderServiceImp implements FolderService {
      */
     @Override
     public BaseResult<Object> addFolder(WebFolder webFolder){
+        if(folderMapper.getFolderNumByFolderNameandUpperFolder(webFolder.getName(), webFolder.getUpper_folder()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名文件夹");
+        }
         FolderDO folderDO = new FolderDO(webFolder);
         folderMapper.insert(folderDO);
         return new BaseResult<>(folderDO);
@@ -50,6 +53,9 @@ public class FolderServiceImp implements FolderService {
     public BaseResult<Object> updateFolder(WebFolder webFolder){
         if (folderMapper.getFolderById(webFolder.getId()) == null) {
             return new BaseResult<>(500, "该文件夹不存在");
+        }
+        if (folderMapper.getFolderNumByFolderNameandUpperFolderExceptMapId(webFolder.getName(),webFolder.getId(),webFolder.getUpper_folder()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名文件夹");
         }
         FolderDO folderDO = new FolderDO(webFolder);
         folderMapper.update(folderDO);
