@@ -14,6 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -27,9 +28,12 @@ import java.util.stream.Collectors;
 public class AjaxAuthenticationProvider implements AuthenticationProvider {
     private final UserDetailsService userDetailsService;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    public AjaxAuthenticationProvider(final UserDetailsService userService) {
+    public AjaxAuthenticationProvider(final UserDetailsService userService,final PasswordEncoder passwordEncoder) {
         this.userDetailsService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,7 +44,12 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
+
         WebGISUser user = (WebGISUser) userDetailsService.loadUserByUsername(username);
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
+        }
 
         UserContext userContext = UserContext.create(user.getUsername(), user.getAuthorities());
 
