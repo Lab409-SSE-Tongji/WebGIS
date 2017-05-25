@@ -94,13 +94,9 @@ public class AccountController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/accounts/id", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/accounts", method = RequestMethod.PATCH)
     public BaseResult<Object> update(@RequestBody WebAccount webAccount) {
 
         return accountService.update(webAccount);
-    }
-
-    private void test(){
-        System.out.println("test controller");
     }
 }

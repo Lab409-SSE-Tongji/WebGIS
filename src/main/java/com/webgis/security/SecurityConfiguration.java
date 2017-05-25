@@ -56,15 +56,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-//                .antMatchers(REGISTER_ENTRY_POINT).permitAll()
-//                .antMatchers(LOGIN_ENTRY_POINT).permitAll()
+                .antMatchers(REGISTER_ENTRY_POINT).permitAll()
+                .antMatchers(LOGIN_ENTRY_POINT).permitAll()
                 .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).permitAll()
                 .antMatchers("/console").permitAll()// FOR TEST
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login.html").permitAll();
-       // http
-                //.addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class)
+        http
+                .addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class);
                 //.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching

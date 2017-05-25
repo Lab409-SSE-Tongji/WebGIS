@@ -47,4 +47,7 @@ public class RecycleController {
     public BaseResult<Object> recoverMap(@RequestParam("mapId") int mapId){
         return recycleService.recoverMap(mapId);
     }
+
+    @RequestMapping(value="/test/{mapId}",method = RequestMethod.GET)
+    public void test(@PathVariable("mapId") Integer mapId){System.out.println("test"+mapId);}
 }
