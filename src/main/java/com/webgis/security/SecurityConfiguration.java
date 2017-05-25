@@ -106,7 +106,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
-    
+
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         List<String> pathsToSkip = Arrays.asList(REGISTER_ENTRY_POINT,LOGIN_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);

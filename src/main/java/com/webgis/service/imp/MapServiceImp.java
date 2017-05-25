@@ -37,6 +37,9 @@ public class MapServiceImp implements MapService {
     @Override
     public BaseResult<Object> addMap(WebMapInfo webMapInfo) {
         MapDO mapDo = new MapDO(webMapInfo);
+        if(mapMapper.getMapNumByMapNameandFolderId(webMapInfo.getName(), webMapInfo.getFolder()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名地图");
+        }
         mapMapper.insert(mapDo);
 
         MongoMap mongoMap = new MongoMap(mapDo.getId());
@@ -69,6 +72,9 @@ public class MapServiceImp implements MapService {
     public BaseResult<Object> updateMap(WebMapInfo webMapInfo) {
         if (mapMapper.getMapById(webMapInfo.getId()) == null) {
             return new BaseResult<>(500, "该地图不存在");
+        }
+        if(mapMapper.getMapNumByMapNameandFolderIdExceptMapId(webMapInfo.getName(), webMapInfo.getFolder(), webMapInfo.getId()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名文件夹");
         }
         mapMapper.update(new MapDO(webMapInfo));
         return new BaseResult<>();

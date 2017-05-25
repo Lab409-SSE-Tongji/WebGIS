@@ -72,7 +72,7 @@ public class RecycleServiceImp implements RecycleService {
             return new BaseResult<>(500, "该地图不存在");
         }
         MapDO mapDO=recycleMapper.getMapById(mapId);
-        mapMapper.insert(mapDO);
+        mapMapper.recover(mapDO);
         recycleMapper.deleteMap(mapId);
         return new BaseResult<>();
     }

@@ -1,6 +1,5 @@
 package com.webgis.mysql.entity;
 
-import com.sun.xml.internal.ws.spi.db.DatabindingException;
 import com.webgis.web.dto.WebMapInfo;
 
 import java.sql.Timestamp;
