@@ -54,6 +54,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and();
 
+        http.cors();
+
         http
                 .authorizeRequests()
                 .antMatchers(REGISTER_ENTRY_POINT).permitAll()
@@ -65,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .loginPage("/login.html").permitAll();
         http
                 .addFilterBefore(ajaxLoginProcessingFilterBean(), UsernamePasswordAuthenticationFilter.class);
-                //.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+//                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         http.headers().cacheControl();
@@ -94,10 +96,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*"); // 1
-        corsConfiguration.addAllowedHeader("x-requeed-stwith"); // 2
-        corsConfiguration.addAllowedHeader("content-type");
+//        corsConfiguration.addAllowedHeader("x-requeed-stwith");
+        corsConfiguration.addAllowedHeader("X-Requested-With");
+        corsConfiguration.addAllowedHeader("Content-Type");
+//        corsConfiguration.addAllowedHeader("content-type");
+        corsConfiguration.addAllowedHeader("X-File-Name");
         corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","OPTIONS","DELETE"));
+//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","PATCH","OPTIONS","DELETE"));
         return corsConfiguration;
     }
 

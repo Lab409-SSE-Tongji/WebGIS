@@ -21,6 +21,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * Created by CCMEOW on 2017/5/16.
@@ -48,7 +49,11 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
             throw new AuthMethodNotSupportedException("Authentication method not supported");
         }
 
-        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+        String username =request.getParameter("username");
+        String password = request.getParameter("password");
+        LoginRequest loginRequest = new LoginRequest(username, password);
+
+//        LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
         if (StringUtils.isBlank(loginRequest.getUsername()) || StringUtils.isBlank(loginRequest.getPassword())) {
             throw new AuthenticationServiceException("Username or Password not provided");
         }

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,9 +44,25 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         UserContext userContext = (UserContext) authentication.getPrincipal();
         JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
 
+
+        String userId = userContext.getUsername();
+
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader(SecurityConfiguration.HEADER_TOKEN, accessToken.getToken());
+
+        PrintWriter out = null;
+
+        try {
+            out = response.getWriter();
+            out.append(userId);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
 
         clearAuthenticationAttributes(request);
     }
