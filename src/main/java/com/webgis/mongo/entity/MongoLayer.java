@@ -24,6 +24,9 @@ public class MongoLayer {
     private Date createTime;
     private Date updateTime;
 
+    public MongoLayer() {
+    }
+
     public MongoLayer(BaseDomain data, Date createTime, Date updateTime) {
         this.id = id;
         this.data = data;
