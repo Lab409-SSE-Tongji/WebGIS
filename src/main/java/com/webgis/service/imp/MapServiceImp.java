@@ -10,6 +10,7 @@ import com.webgis.mysql.entity.MapDO;
 import com.webgis.mysql.mapper.MapMapper;
 import com.webgis.service.MapService;
 import com.webgis.web.BaseResult;
+import com.webgis.web.dto.WebLayerType;
 import com.webgis.web.dto.WebMapInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -169,16 +170,17 @@ public class MapServiceImp implements MapService {
 
     @Override
     public BaseResult<Object> getLayerIdAndType(int mapId) {
-        Map<String, TypeEnum> map = new HashMap<>();
+        List<WebLayerType> layerTypeList = new ArrayList<>();
 
         MongoMap mongoMap = mongoMapRepository.findByMapId(mapId);
         List<String> layerIds = mongoMap.getLayerIds();
         for (String layerId : layerIds) {
             MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
-            map.put(layerId, mongoLayer.getData().getType());
+
+            layerTypeList.add(new WebLayerType(layerId, mongoLayer.getData().getType()));
         }
 
-        return new BaseResult(map);
+        return new BaseResult(layerTypeList);
     }
 
 }
