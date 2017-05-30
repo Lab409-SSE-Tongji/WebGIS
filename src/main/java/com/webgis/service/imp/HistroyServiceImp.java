@@ -89,4 +89,21 @@ public class HistroyServiceImp implements HistoryService {
     public BaseResult<Object> getHistory(String historyId) {
         return new BaseResult<>(mongoHistoryRepository.findById(historyId));
     }
+
+    /**
+     * 获取所有历史版本接口
+     * @param mapId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getAllHistory(int mapId) {
+        List<MongoHistory> list = new ArrayList<>();
+        MongoMap mongoMap = mongoMapRepository.findByMapId(mapId);
+        for (String historyId : mongoMap.getHistoryIds()) {
+            MongoHistory mongoHistory = mongoHistoryRepository.findById(historyId);
+            list.add(new MongoHistory(mongoHistory.getId(), mongoHistory.getDescription(), null));
+        }
+
+        return new BaseResult<>(list);
+    }
 }

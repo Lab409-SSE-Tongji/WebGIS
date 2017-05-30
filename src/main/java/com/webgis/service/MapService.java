@@ -36,6 +36,19 @@ public interface MapService {
      */
     BaseResult<Object> getMap(int mapId);
 
+    /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    BaseResult<Object> getMapByAccountId(int accountId);
+
+    /**
+     * 根据地图ID获取历史地图ID和DATE
+     * @param mapId
+     * @return
+     */
+    BaseResult<Object> getHistoryIdandDateByMapId(int mapId);
 
     /**
      * 根据账户ID及当前文件夹ID获取所有创建地图
@@ -44,4 +57,14 @@ public interface MapService {
      * @return
      */
     BaseResult<Object> getMapByAccountIdandFolderId(int accountId, int folderId);
+
+
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * @param accountId
+     * @param folderId
+     * @param pageId
+     * @return
+     */
+    BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId);
 }

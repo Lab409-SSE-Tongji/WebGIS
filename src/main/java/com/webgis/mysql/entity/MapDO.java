@@ -4,6 +4,7 @@ import com.webgis.web.dto.WebMapInfo;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Date;
 
 /**
  * Created by Justin on 2017/3/9.
@@ -16,7 +17,8 @@ public class MapDO extends BaseDO {
     private Integer folder;
     private String description;
     private List<String> layerIds;
-
+    private List<String> historyIds;
+    private List<Date> historyDates;
 
     public MapDO() {
 
@@ -30,21 +32,25 @@ public class MapDO extends BaseDO {
         this.description = webMapInfo.getDescription();
     }
 
-    public MapDO(Integer account_id, String name, Integer folder, String description, List<String> layerIds) {
+    public MapDO(Integer account_id, String name, Integer folder, String description, List<String> layerIds, List<String> historyIds, List<Date> historyDates) {
         this.account_id = account_id;
         this.name = name;
         this.folder = folder;
         this.description = description;
         this.layerIds = layerIds;
+        this.historyIds = historyIds;
+        this.historyDates = historyDates;
     }
 
-    public MapDO(Integer id, Timestamp create_time, Timestamp update_time, Integer account_id, String name, Integer folder, String description, List<String> layerIds) {
+    public MapDO(Integer id, Timestamp create_time, Timestamp update_time, Integer account_id, String name, Integer folder, String description, List<String> layerIds, List<String> historyIds,  List<Date> historyDates) {
         super(id, create_time, update_time);
         this.account_id = account_id;
         this.name = name;
         this.folder = folder;
         this.description = description;
         this.layerIds = layerIds;
+        this.historyIds = historyIds;
+        this.historyDates = historyDates;
     }
 
     public Integer getAccount_id() {
@@ -83,7 +89,24 @@ public class MapDO extends BaseDO {
         return layerIds;
     }
 
+    public List<String> getHistoryIds() {
+        return historyIds;
+    }
+
+    public List<Date> getHistoryDates() {
+        return historyDates;
+    }
+
     public void setLayerIds(List<String> layerIds) {
         this.layerIds = layerIds;
     }
+
+    public void setHistoryIds(List<String> historyIds) {
+        this.historyIds = historyIds;
+    }
+
+    public void setHistoryDates(List<Date> historyDates) {
+        this.historyDates = historyDates;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.webgis.service.imp;
 
 import com.webgis.mongo.MongoMapRepository;
+import com.webgis.mongo.MongoHistoryRepository;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.mysql.entity.MapDO;
 import com.webgis.mysql.mapper.MapMapper;
@@ -10,8 +11,7 @@ import com.webgis.web.dto.WebMapInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+import java.util.*;
 /**
  * Created by Justin on 2017/3/9.
  * 地图相关服务实现
@@ -24,7 +24,10 @@ public class MapServiceImp implements MapService {
     private MapMapper mapMapper;
 
     @Autowired
+    
     private MongoMapRepository mongoMapRepository;
+
+    private MongoHistoryRepository mongoHistoryRepository;
 
     /**
      * 新建地图
@@ -34,6 +37,9 @@ public class MapServiceImp implements MapService {
     @Override
     public BaseResult<Object> addMap(WebMapInfo webMapInfo) {
         MapDO mapDo = new MapDO(webMapInfo);
+        if(mapMapper.getMapNumByMapNameandFolderId(webMapInfo.getName(), webMapInfo.getFolder()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名地图");
+        }
         mapMapper.insert(mapDo);
 
         MongoMap mongoMap = new MongoMap(mapDo.getId());
@@ -67,6 +73,9 @@ public class MapServiceImp implements MapService {
         if (mapMapper.getMapById(webMapInfo.getId()) == null) {
             return new BaseResult<>(500, "该地图不存在");
         }
+        if(mapMapper.getMapNumByMapNameandFolderIdExceptMapId(webMapInfo.getName(), webMapInfo.getFolder(), webMapInfo.getId()).isEmpty() == false){
+            return new BaseResult<>(501,"已存在同名文件夹");
+        }
         mapMapper.update(new MapDO(webMapInfo));
         return new BaseResult<>();
     }
@@ -86,6 +95,34 @@ public class MapServiceImp implements MapService {
         return new BaseResult<>(mapDO);
     }
 
+
+    /**
+     * 根据账户ID获取所有创建地图
+     * @param accountId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getMapByAccountId(int accountId) {
+        List<MapDO> mapDOs = mapMapper.getMapByAccountId(accountId);
+        return new BaseResult<>(mapDOs);
+    }
+
+    /**
+     * 根据地图ID获取历史地图id
+     * @param mapId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getHistoryIdandDateByMapId(int mapId) {
+        MapDO mapDO = mapMapper.getMapById(mapId);
+        if (mapDO == null) {
+            return new BaseResult<>(500, "该地图不存在");
+        }
+        mapDO.setHistoryIds(mongoMapRepository.findByMapId(mapId).getHistoryIds());
+        mapDO.setHistoryDates(mongoMapRepository.findByMapId(mapId).getHistoryDates());
+        return new BaseResult<>(mapDO);
+    }
+
     /**
      * 根据账户ID及当前文件夹ID获取所有创建地图
      * @param accountId
@@ -98,4 +135,30 @@ public class MapServiceImp implements MapService {
         return new BaseResult<>(mapDOs);
 
     }
+
+    /**
+     * 根据账户ID及当前文件夹ID及pageID分页获取地图总数及当前页数下的地图
+     * @param accountId
+     * @param folderId
+     * @param pageId
+     * @return
+     */
+    @Override
+    public BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId){
+        Map m1 = new HashMap();
+        int sum = mapMapper.getMapNumByAccountIdandFolderId(accountId, folderId);
+        int pageNum;
+        if(sum % 10 == 0) {
+            pageNum = sum / 10;
+        }else
+        {
+            pageNum = sum / 10 + 1;
+        }
+        int pageNow = (pageId - 1) * 10;
+        m1.put("pageNum", pageNum);
+        List<MapDO> mapDOs = mapMapper.getMapByAccountIdandFolderIdandPageId(accountId, folderId, pageNow);
+        m1.put("map", mapDOs);
+        return new BaseResult<>(m1);
+    }
+
 }

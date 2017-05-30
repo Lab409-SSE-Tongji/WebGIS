@@ -71,4 +71,6 @@ public class FolderController {
     public BaseResult<Object> getFolderByAccountIDandUpperFolder(@RequestParam("accountId") int accountId, @RequestParam("upperFolder") int upperFolder) {
         return folderService.getFolderByAccountIDandUpperFolder(accountId, upperFolder);
     }
+
+
 }

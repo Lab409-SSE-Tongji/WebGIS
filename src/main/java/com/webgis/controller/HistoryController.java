@@ -24,7 +24,7 @@ public class HistoryController {
      * @param webHistory
      * @return
      */
-    @RequestMapping(value="/histories",method=RequestMethod.POST)
+    @RequestMapping(value="/histories", method=RequestMethod.POST)
     @ResponseBody
     public BaseResult<Object> addHistory(@RequestBody WebHistory webHistory) {
         return historyService.addHistory(webHistory);
@@ -42,7 +42,7 @@ public class HistoryController {
     }
 
     /**
-     * 获取历史版本接口
+     * 根据historyID获取历史版本地图接口
      * @param historyId
      * @return
      */
@@ -51,4 +51,16 @@ public class HistoryController {
     public BaseResult<Object> getHistory(@RequestParam("historyId") String historyId) {
         return historyService.getHistory(historyId);
     }
+
+    /**
+     * 根据mapId获取所有历史版本地图ID
+     * @param mapId
+     * @return
+     */
+    @RequestMapping(value = "/histories/mapId", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getAllHistory(@RequestParam("mapId") int mapId) {
+        return historyService.getAllHistory(mapId);
+    }
+
 }

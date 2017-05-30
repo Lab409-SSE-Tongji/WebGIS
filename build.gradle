@@ -51,5 +51,10 @@ dependencies {
 	compile group: 'org.apache.poi', name: 'poi', version: '3.15'
 	compile group: 'org.apache.poi', name: 'poi-ooxml', version: '3.15'
 
+	//jwt 加入
+	compile('io.jsonwebtoken:jjwt:0.6.0')
+
+	compile("org.apache.commons:commons-lang3:3.2")
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

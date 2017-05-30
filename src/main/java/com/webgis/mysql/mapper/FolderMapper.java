@@ -56,11 +56,32 @@ public interface FolderMapper {
     @Select("SELECT * FROM folder WHERE account_id=#{accountId} and upper_folder=#{upperFolder}")
     List<FolderDO> getFolderByAccountIDandUpperFolder(@Param("accountId") int accountId, @Param("upperFolder") int upperFolder);
 
+    /**
+     * 根据上层文件夹信息获取对应的本级文件夹
+     * @param upperFolder
+     * @return
+     */
+    @Select("SELECT id FROM folder WHERE upper_folder=#{upperFolder}")
+    List<Integer> getFoldersByUpperFolder(@Param("upperFolder") int upperFolder);
 
+    /**
+     * 检测是否已存在该命名的文件夹
+     * @param folderName
+     * @param upperFolder
+     * @return
+     */
+    @Select("SELECT id FROM folder WHERE name = #{folderName} and upper_folder=#{upperFolder}")
+    List<Integer> getFolderNumByFolderNameandUpperFolder(@Param("folderName") String folderName, @Param("upperFolder") int upperFolder);
 
-
-
-
+    /**
+     * 检测是否除本身之外已存在该命名的地图
+     * @param folderId
+     * @param folderId
+     * @param upperFolder
+     * @return
+     */
+    @Select("SELECT id FROM folder WHERE name=#{folderName} and upper_folder=#{upperFolder} and id<>#{folderId}")
+    List<Integer> getFolderNumByFolderNameandUpperFolderExceptMapId(@Param("folderName") String folderName, @Param("folderId") int folderId, @Param("upperFolder") int upperFolder);
 
 
     /**

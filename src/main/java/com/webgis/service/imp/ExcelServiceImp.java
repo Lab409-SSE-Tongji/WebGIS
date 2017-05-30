@@ -29,8 +29,9 @@ public class ExcelServiceImp implements ExcelService {
             Workbook workbook = WorkbookFactory.create(file.getInputStream());
             Sheet sheet = workbook.getSheetAt(0);
 
+            System.out.println(sheet.getLastRowNum());
             // TODO: 2017/3/16 检测Excel首行内容
-            for (int rowNum=1; rowNum<sheet.getLastRowNum(); rowNum++) {
+            for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 Row row = sheet.getRow(rowNum);
                 PointDomain pointDomain = new PointDomain(row.getCell(0).getNumericCellValue(),
                         row.getCell(1).getNumericCellValue(),
@@ -56,7 +57,7 @@ public class ExcelServiceImp implements ExcelService {
             Sheet sheet = workbook.getSheetAt(0);
 
             // TODO: 2017/3/16 检测Excel首行内容
-            for (int rowNum=1; rowNum<sheet.getLastRowNum(); rowNum++) {
+            for (int rowNum=1; rowNum<=sheet.getLastRowNum(); rowNum++) {
                 Row row = sheet.getRow(rowNum);
                 LineDomain lineDomain = new LineDomain(row.getCell(0).getNumericCellValue(),
                         row.getCell(1).getNumericCellValue(),
