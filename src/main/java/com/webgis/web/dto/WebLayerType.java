@@ -1,7 +1,6 @@
 package com.webgis.web.dto;
 
 import com.webgis.enums.TypeEnum;
-import sun.plugin2.message.Serializer;
 
 /**
  * Created by Justin on 2017/5/30.
