@@ -1,7 +1,10 @@
 package com.webgis.service.imp;
 
+import com.webgis.enums.TypeEnum;
+import com.webgis.mongo.MongoLayerRepository;
 import com.webgis.mongo.MongoMapRepository;
 import com.webgis.mongo.MongoHistoryRepository;
+import com.webgis.mongo.entity.MongoLayer;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.mysql.entity.MapDO;
 import com.webgis.mysql.mapper.MapMapper;
@@ -24,10 +27,13 @@ public class MapServiceImp implements MapService {
     private MapMapper mapMapper;
 
     @Autowired
-    
     private MongoMapRepository mongoMapRepository;
 
+    @Autowired
     private MongoHistoryRepository mongoHistoryRepository;
+
+    @Autowired
+    private MongoLayerRepository mongoLayerRepository;
 
     /**
      * 新建地图
@@ -159,6 +165,20 @@ public class MapServiceImp implements MapService {
         List<MapDO> mapDOs = mapMapper.getMapByAccountIdandFolderIdandPageId(accountId, folderId, pageNow);
         m1.put("map", mapDOs);
         return new BaseResult<>(m1);
+    }
+
+    @Override
+    public BaseResult<Object> getLayerIdAndType(int mapId) {
+        Map<String, TypeEnum> map = new HashMap<>();
+
+        MongoMap mongoMap = mongoMapRepository.findByMapId(mapId);
+        List<String> layerIds = mongoMap.getLayerIds();
+        for (String layerId : layerIds) {
+            MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
+            map.put(layerId, mongoLayer.getData().getType());
+        }
+
+        return new BaseResult(map);
     }
 
 }
