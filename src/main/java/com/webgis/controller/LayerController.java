@@ -101,7 +101,7 @@ public class LayerController {
      * @param layerId
      * @return
      */
-    @RequestMapping(value = "/layers", method = RequestMethod.GET)
+    @RequestMapping(value = "/layer", method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getSingleLayer(@RequestParam("layerId") String layerId) {
         return layerService.getLayer(layerId);
