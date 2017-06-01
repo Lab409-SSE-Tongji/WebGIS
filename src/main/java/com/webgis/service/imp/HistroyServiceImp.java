@@ -10,6 +10,7 @@ import com.webgis.mongo.entity.MongoMap;
 import com.webgis.service.HistoryService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebHistory;
+import com.webgis.web.dto.WebLayerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,15 +43,22 @@ public class HistroyServiceImp implements HistoryService {
      */
     @Override
     public BaseResult<Object> addHistory(WebHistory webHistory) {
-        List<BaseDomain> data = new ArrayList<>();
+        List<WebLayerType> data = new ArrayList<>();
 
         MongoMap mongoMap = mongoMapRepository.findByMapId(webHistory.getMapId());
         for (String layerId : mongoMap.getLayerIds()) {
             MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
-            data.add(mongoLayer.getData());
+
+            MongoLayer mongoLayerCopy = new MongoLayer();
+            mongoLayerCopy.setCreateTime(mongoLayer.getCreateTime());
+            mongoLayerCopy.setUpdateTime(mongoLayer.getUpdateTime());
+            mongoLayerCopy.setData(mongoLayer.getData());
+
+            mongoLayerCopy = mongoLayerRepository.save(mongoLayerCopy);
+            data.add(new WebLayerType(mongoLayerCopy.getId(), mongoLayerCopy.getData().getType()));
         }
 
-        MongoHistory mongoHistory = new MongoHistory(webHistory.getDescription(), data);
+        MongoHistory mongoHistory = new MongoHistory(webHistory.getDescription(), new Date(), data);
         mongoHistory = mongoHistoryRepository.save(mongoHistory);
 
         mongoMap.getHistoryDates().add(new Date());
@@ -101,7 +109,7 @@ public class HistroyServiceImp implements HistoryService {
         MongoMap mongoMap = mongoMapRepository.findByMapId(mapId);
         for (String historyId : mongoMap.getHistoryIds()) {
             MongoHistory mongoHistory = mongoHistoryRepository.findById(historyId);
-            list.add(new MongoHistory(mongoHistory.getId(), mongoHistory.getDescription(), null));
+            list.add(mongoHistory);
         }
 
         return new BaseResult<>(list);

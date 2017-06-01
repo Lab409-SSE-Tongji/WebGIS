@@ -67,4 +67,6 @@ public interface MapService {
      * @return
      */
     BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId);
+
+    BaseResult<Object> getLayerIdAndType(int mapId);
 }

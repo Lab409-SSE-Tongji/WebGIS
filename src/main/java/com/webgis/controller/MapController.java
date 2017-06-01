@@ -114,4 +114,14 @@ public class MapController {
     public BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId ,int pageId) {
         return mapService.getMapByAccountIdandFolderIdandPageId(accountId, folderId, pageId);
     }
+
+    /**
+     * 根据mapId获取图层Id和对应类型
+     */
+    @RequestMapping(value = "/maps/layerId...type", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getLayerIdAndType(@RequestParam("mapId") int mapId) {
+        return mapService.getLayerIdAndType(mapId);
+    }
+
 }

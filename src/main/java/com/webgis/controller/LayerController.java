@@ -95,4 +95,16 @@ public class LayerController {
     public BaseResult<Object> getLayer(@RequestParam("mapId") int mapId) {
         return layerService.getLayer(mapId);
     }
+
+    /**
+     * 获取单个图层数据接口
+     * @param layerId
+     * @return
+     */
+    @RequestMapping(value = "/layer", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getSingleLayer(@RequestParam("layerId") String layerId) {
+        return layerService.getLayer(layerId);
+    }
+
 }
