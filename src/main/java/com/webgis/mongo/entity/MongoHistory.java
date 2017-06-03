@@ -1,9 +1,11 @@
 package com.webgis.mongo.entity;
 
 import com.webgis.domain.base.BaseDomain;
+import com.webgis.web.dto.WebLayerType;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,18 +23,19 @@ public class MongoHistory {
     private String id;
 
     private String description;
-    private List<BaseDomain> data;
+    private Date date;
+    private List<WebLayerType> data;
 
     public MongoHistory() {
     }
 
-    public MongoHistory(String description, List<BaseDomain> data) {
+    public MongoHistory(String description, Date date, List<WebLayerType> data) {
         this.description = description;
+        this.date = date;
         this.data = data;
     }
 
-    public MongoHistory(String id, String description, List<BaseDomain> data) {
-
+    public MongoHistory(String id, String description, List<WebLayerType> data) {
         this.id = id;
         this.description = description;
         this.data = data;
@@ -54,11 +57,19 @@ public class MongoHistory {
         this.description = description;
     }
 
-    public List<BaseDomain> getData() {
+    public List<WebLayerType> getData() {
         return data;
     }
 
-    public void setData(List<BaseDomain> data) {
+    public void setData(List<WebLayerType> data) {
         this.data = data;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

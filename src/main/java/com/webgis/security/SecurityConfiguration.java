@@ -23,6 +23,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -94,16 +97,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private CorsConfiguration buildConfig() {
+
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); // 1
-//        corsConfiguration.addAllowedHeader("x-requeed-stwith");
-        corsConfiguration.addAllowedHeader("X-Requested-With");
-        corsConfiguration.addAllowedHeader("Content-Type");
-//        corsConfiguration.addAllowedHeader("content-type");
-        corsConfiguration.addAllowedHeader("X-File-Name");
+        corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.addAllowedMethod("*");
-//        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST","PUT","PATCH","OPTIONS","DELETE"));
+     //   configuration.setAllowedOrigins(Arrays.asList("*"));
+      //  configuration.setAllowedMethods(Arrays.asList("HEAD",  "GET", "POST", "PUT", "DELETE", "PATCH"));
+        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type", "X-File-Name"));
         return corsConfiguration;
+
     }
 
     protected AjaxLoginProcessingFilter ajaxLoginProcessingFilterBean() throws Exception {
@@ -122,7 +125,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", buildConfig()); // 4
         return new CorsFilter(source);
     }
@@ -145,4 +148,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(ajaxAuthenticationProvider);
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
+
 }
