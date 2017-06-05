@@ -83,7 +83,7 @@ public class AccountController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/accounts/id", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/accounts", method = RequestMethod.DELETE)
     public BaseResult<Object> deleteAccount(@RequestParam("username") String userName){
         return accountService.deleteAccount(userName);
     }

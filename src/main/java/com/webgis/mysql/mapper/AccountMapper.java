@@ -44,6 +44,11 @@ public interface AccountMapper {
     @Select("SELECT * FROM account WHERE username=#{username}")
     AccountDO getAccountByUsername(@Param("username") String userName);
 
+    /**
+     * 根据id获取用户
+     */
+    @Select("SELECT * FROM account WHERE id=#{id}")
+    AccountDO getAccountById(@Param("id")Integer id);
 
 
 
