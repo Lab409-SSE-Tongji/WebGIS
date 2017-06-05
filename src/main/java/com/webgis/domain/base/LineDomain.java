@@ -11,6 +11,9 @@ import com.webgis.enums.StatusEnum;
 
 public class LineDomain {
 
+
+    private String url;
+    private String id;
     private double x;
     private double y;
     private double z;
@@ -32,6 +35,8 @@ public class LineDomain {
         this.y2 = y2;
         this.z2 = z2;
         this.status = status;
+        url = "";
+        id = "";
     }
 
     public double getX() {

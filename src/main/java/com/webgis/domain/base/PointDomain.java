@@ -11,6 +11,9 @@ import com.webgis.enums.StatusEnum;
 
 public class PointDomain {
 
+    private String url;
+    private String id;
+
     private double x;
     private double y;
     private double z;
@@ -20,6 +23,8 @@ public class PointDomain {
     }
 
     public PointDomain(double x, double y, double z, StatusEnum status) {
+        url = "";
+        id = "";
         this.x = x;
         this.y = y;
         this.z = z;
