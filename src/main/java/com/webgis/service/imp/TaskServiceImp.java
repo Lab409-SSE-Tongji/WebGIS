@@ -87,6 +87,25 @@ public class TaskServiceImp implements TaskService {
         }
     }
 
+    public BaseResult<Object> payTask(String taskId, Long date) {
+        try {
+            String ts = DateUtil.longToTimestamp(date);
+            MongoTask mongoTask = mongoTaskRepository.findById(taskId);
+            if (mongoTask == null) {
+                return new BaseResult<>(500, "任务不存在！");
+            }
+            if (mongoTask.getTaskState() != TaskStateEnum.FINISHED) {
+                return new BaseResult<>(206, "任务状态不正确");
+            }
+            mongoTask.setTaskState(TaskStateEnum.PAID);
+            mongoTask.setFinishTime(ts);
+            mongoTaskRepository.save(mongoTask);
+            return new BaseResult<>(new WebTaskState(mongoTask.getId(), mongoTask.getTaskState()));
+        } catch (ParseException e) {
+            return new BaseResult<>(400, "参数错误");
+        }
+    }
+
     public BaseResult<Object> giveUpTask(String taskId) {
         MongoTask mongoTask = mongoTaskRepository.findById(taskId);
         if (mongoTask == null) {

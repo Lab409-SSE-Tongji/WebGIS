@@ -1,5 +1,6 @@
 package com.webgis.web.dto;
 
+import com.webgis.enums.TaskStateEnum;
 import com.webgis.mongo.entity.MongoTask;
 import com.webgis.utils.DateUtil;
 
@@ -19,6 +20,10 @@ public class WebTask implements Serializable {
     private String taskDesc;
     private double value;
     private Long createDate;
+    private TaskStateEnum state;
+    private int accpeterId;
+
+
 
     public WebTask() {
     }
@@ -32,6 +37,24 @@ public class WebTask implements Serializable {
         this.value = mongoTask.getValue();
         this.createDate = DateUtil.timestampToLong(mongoTask.getCreateTime());
         this.id = mongoTask.getId();
+        this.state = mongoTask.getTaskState();
+        this.accpeterId = mongoTask.getAccepterId();
+    }
+
+    public TaskStateEnum getState() {
+        return state;
+    }
+
+    public void setState(TaskStateEnum state) {
+        this.state = state;
+    }
+
+    public int getAccpeterId() {
+        return accpeterId;
+    }
+
+    public void setAccpeterId(int accpeterId) {
+        this.accpeterId = accpeterId;
     }
 
     public String getId() {

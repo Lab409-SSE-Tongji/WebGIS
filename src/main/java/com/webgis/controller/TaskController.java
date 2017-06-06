@@ -77,7 +77,7 @@ public class TaskController {
     @RequestMapping(value = "/tasks/{taskId}/{date}/paid", method = RequestMethod.PATCH)
     @ResponseBody
     public BaseResult<Object> pay( @PathVariable("taskId") String taskId,@PathVariable("date") Long date){
-        return null;
+        return taskService.payTask(taskId, date);
     }
 
     /**
