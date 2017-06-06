@@ -1,5 +1,6 @@
 package com.webgis.service.imp;
 
+import com.mongodb.Mongo;
 import com.webgis.enums.TaskStateEnum;
 import com.webgis.mongo.MongoTaskRepository;
 import com.webgis.mongo.entity.MongoTask;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by CCMEOW on 2017/6/5.
@@ -110,6 +113,20 @@ public class TaskServiceImp implements TaskService {
         mongoTask.setTaskState(TaskStateEnum.CANCELED);
         mongoTaskRepository.save(mongoTask);
         return new BaseResult<>(new WebTaskState(mongoTask.getId(), mongoTask.getTaskState()));
+    }
+
+
+    public BaseResult<Object> getAllTasks() {
+        List<MongoTask> tasks = mongoTaskRepository.findAll();
+        ArrayList<WebTask> results = new ArrayList<>();
+        for (MongoTask task : tasks) {
+            try {
+                results.add(new WebTask(task));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return new BaseResult<>(results);
     }
 
 }

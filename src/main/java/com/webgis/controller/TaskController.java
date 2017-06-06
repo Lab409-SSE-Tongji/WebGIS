@@ -24,6 +24,17 @@ public class TaskController {
     TaskService taskService;
 
     /**
+     * get task list
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    public BaseResult<Object> getTaskList() {
+        return taskService.getAllTasks();
+    }
+
+
+    /**
      * 创建任务
      * @param webTask
      * @return

@@ -1,6 +1,10 @@
 package com.webgis.web.dto;
 
+import com.webgis.mongo.entity.MongoTask;
+import com.webgis.utils.DateUtil;
+
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 
 /**
@@ -8,7 +12,7 @@ import java.util.Date;
  */
 public class WebTask implements Serializable {
 
-    private int id;
+    private String id;
     private int creatorId;
     private double lat;
     private double lng;
@@ -17,11 +21,25 @@ public class WebTask implements Serializable {
     private double value;
     private Long createDate;
 
-    public int getId() {
+    public WebTask() {
+    }
+
+    public WebTask(MongoTask mongoTask) throws ParseException {
+        this.creatorId = mongoTask.getCreatorId();
+        this.lat = mongoTask.getLat();
+        this.lng = mongoTask.getLng();
+        this.addressDesc = mongoTask.getAddressDesc();
+        this.taskDesc = mongoTask.getTaskDesc();
+        this.value = mongoTask.getValue();
+        this.createDate = DateUtil.dateToTimestamp(mongoTask.getCreateTime());
+        this.id = mongoTask.getId();
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

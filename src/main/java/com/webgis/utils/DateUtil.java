@@ -17,4 +17,10 @@ public class DateUtil {
         String ts = sdf.format(date);
         return ts;
     }
+
+    public static Long dateToTimestamp(String dateStr) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = simpleDateFormat.parse(dateStr);
+        return date.getTime();
+    }
 }

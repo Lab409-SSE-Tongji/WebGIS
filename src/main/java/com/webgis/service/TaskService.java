@@ -11,6 +11,12 @@ import java.util.Date;
 public interface TaskService {
 
     /**
+     * get task list
+     * @return
+     */
+    BaseResult<Object> getAllTasks();
+
+    /**
      * 创建任务
      * @param webTask 任务信息
      * @return
