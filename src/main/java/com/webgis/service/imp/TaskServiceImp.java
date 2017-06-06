@@ -1,6 +1,5 @@
 package com.webgis.service.imp;
 
-import com.mongodb.Mongo;
 import com.webgis.enums.TaskStateEnum;
 import com.webgis.mongo.MongoTaskRepository;
 import com.webgis.mongo.entity.MongoTask;
@@ -31,7 +30,7 @@ public class TaskServiceImp implements TaskService {
     @Override
     public BaseResult<Object> addTask(WebTask webTask) {
         try {
-            String ts = DateUtil.toTimestamp(webTask.getCreateDate());
+            String ts = DateUtil.longToTimestamp(webTask.getCreateDate());
             if (accountMapper.getAccountById(webTask.getCreatorId()) == null) {
                 return new BaseResult<>(500, "创建者不存在！");
             }
@@ -48,7 +47,7 @@ public class TaskServiceImp implements TaskService {
 
     public BaseResult<Object> acceptTask(String taskId, Long date, int accepterId) {
         try {
-            String ts = DateUtil.toTimestamp(date);
+            String ts = DateUtil.longToTimestamp(date);
             if (accountMapper.getAccountById(accepterId) == null) {
                 return new BaseResult<>(500, "接受者不存在！");
             }
@@ -71,7 +70,7 @@ public class TaskServiceImp implements TaskService {
 
     public BaseResult<Object> finishTask(String taskId, Long date) {
         try {
-            String ts = DateUtil.toTimestamp(date);
+            String ts = DateUtil.longToTimestamp(date);
             MongoTask mongoTask = mongoTaskRepository.findById(taskId);
             if (mongoTask == null) {
                 return new BaseResult<>(500, "任务不存在！");
@@ -116,8 +115,8 @@ public class TaskServiceImp implements TaskService {
     }
 
 
-    public BaseResult<Object> getAllTasks() {
-        List<MongoTask> tasks = mongoTaskRepository.findAll();
+    public BaseResult<Object> getAllTasks(Integer creatorId) {
+        List<MongoTask> tasks = creatorId==null?mongoTaskRepository.findAll():mongoTaskRepository.findByCreatorId(creatorId);
         ArrayList<WebTask> results = new ArrayList<>();
         for (MongoTask task : tasks) {
             try {

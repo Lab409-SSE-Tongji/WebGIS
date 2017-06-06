@@ -11,15 +11,14 @@ import java.util.Objects;
  * Created by CCMEOW on 2017/6/5.
  */
 public class DateUtil {
-    public static String toTimestamp(Long date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date time = new Date(date * 1000);
-        String ts = sdf.format(date);
-        return ts;
+    public static String longToTimestamp(Long date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        Date time = new Date(date);
+        return sdf.format(time);
     }
 
-    public static Long dateToTimestamp(String dateStr) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static Long timestampToLong(String dateStr) throws ParseException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         Date date = simpleDateFormat.parse(dateStr);
         return date.getTime();
     }

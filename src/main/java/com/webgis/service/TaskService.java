@@ -12,9 +12,10 @@ public interface TaskService {
 
     /**
      * get task list
+     * @param creatorId 发布者 id
      * @return
      */
-    BaseResult<Object> getAllTasks();
+    BaseResult<Object> getAllTasks(Integer creatorId);
 
     /**
      * 创建任务
@@ -52,4 +53,6 @@ public interface TaskService {
      * @return
      */
     BaseResult<Object> cancelTask(String taskId);
+
+
 }

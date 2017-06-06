@@ -5,7 +5,6 @@ import com.webgis.utils.DateUtil;
 
 import java.io.Serializable;
 import java.text.ParseException;
-import java.util.Date;
 
 /**
  * Created by CCMEOW on 2017/6/5.
@@ -31,7 +30,7 @@ public class WebTask implements Serializable {
         this.addressDesc = mongoTask.getAddressDesc();
         this.taskDesc = mongoTask.getTaskDesc();
         this.value = mongoTask.getValue();
-        this.createDate = DateUtil.dateToTimestamp(mongoTask.getCreateTime());
+        this.createDate = DateUtil.timestampToLong(mongoTask.getCreateTime());
         this.id = mongoTask.getId();
     }
 

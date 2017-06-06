@@ -29,8 +29,8 @@ public class TaskController {
      */
     @ResponseBody
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
-    public BaseResult<Object> getTaskList() {
-        return taskService.getAllTasks();
+    public BaseResult<Object> getTaskList(@RequestParam(required = false) Integer creatorId) {
+        return taskService.getAllTasks(creatorId);
     }
 
 
