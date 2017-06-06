@@ -36,7 +36,7 @@ public class ExcelServiceImp implements ExcelService {
                 PointDomain pointDomain = new PointDomain(row.getCell(0).getNumericCellValue(),
                         row.getCell(1).getNumericCellValue(),
                         row.getCell(2).getNumericCellValue(),
-                        StatusEnum.getEnum(row.getCell(3).getStringCellValue()));
+                        StatusEnum.getEnum(row.getCell(3).getStringCellValue()), "");
                 list.add(pointDomain);
             }
             return new CommonCoverDomain(list);
