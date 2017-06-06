@@ -27,6 +27,20 @@ public class LineDomain {
     public LineDomain() {
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getUrl() {return url;}
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public LineDomain(double x, double y, double z, double x2, double y2, double z2, StatusEnum status) {
         this.x = x;
         this.y = y;
