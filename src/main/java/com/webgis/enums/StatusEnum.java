@@ -9,7 +9,12 @@ package com.webgis.enums;
 
 public enum  StatusEnum {
     GOOD("001", "Good"),
-    BAD("002", "Bad");
+    BAD("002", "Bad"),
+    REPAIRED("003","Repaired"),
+    HOLLOW("004","Hollow"),
+    LOST("005","Lost"),
+    BLOCKED("006","Blocked");
+
 
     private String code;
     private String value;

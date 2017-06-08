@@ -1,20 +1,16 @@
 package com.webgis.service.imp;
 
 import com.webgis.mysql.entity.AccountDO;
+import com.webgis.mysql.entity.AdminMapDO;
 import com.webgis.mysql.mapper.AccountMapper;
-import com.webgis.security.WebGISUser;
-import com.webgis.security.model.UserContext;
-import com.webgis.security.model.token.JwtToken;
+import com.webgis.mysql.mapper.AdminMapMapper;
+import com.webgis.mysql.mapper.MapMapper;
 import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +24,12 @@ public class AccountServiceImp implements AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
+
+    @Autowired
+    private MapMapper mapMapper;
+
+    @Autowired
+    private AdminMapMapper adminMapMapper;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -81,5 +83,24 @@ public class AccountServiceImp implements AccountService {
         return new BaseResult<>();
     }
 
+    @Override
+    public BaseResult<Object> assignMap(int mapId,int adminId){
+        if (accountMapper.getAdminById(adminId) == null) {
+            return new BaseResult<>(500, "管理员不存在或该用户不是管理员");
+        }
+        if(mapMapper.getMapById(mapId)==null){
+            return new BaseResult<>(500,"地图不存在");
+        }
+        adminMapMapper.insert(new AdminMapDO(mapId,adminId));
+        return new BaseResult<>();
+    }
 
+    @Override
+    public BaseResult<Object> deleteMapOfAdmin(int mapId, int adminId){
+        if(adminMapMapper.getAdminMap(mapId,adminId)==null){
+            return new BaseResult<>(500,"管理员不管理该地图");
+        }
+        adminMapMapper.deleteOne(mapId,adminId);
+        return new BaseResult<>();
+    }
 }

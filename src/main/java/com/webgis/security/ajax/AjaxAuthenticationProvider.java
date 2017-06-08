@@ -51,7 +51,7 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }
 
-        UserContext userContext = UserContext.create(user.getId().toString(), user.getAuthorities());
+        UserContext userContext = new UserContext(user.getId().toString(),user.getRole(),user.getCompany(), user.getAuthorities());
 
         return new UsernamePasswordAuthenticationToken(userContext, null, userContext.getAuthorities());
     }

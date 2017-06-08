@@ -14,6 +14,8 @@ public class WebAccount implements Serializable{
     private String name;
     private String username;
     private String password;
+    private String company;
+    private String role;
 
     public WebAccount(String name, String username, String password) {
         setName(name);
@@ -66,4 +68,22 @@ public class WebAccount implements Serializable{
                 ", password='" + getPassword() + '\'' +
                 '}';
     }
+
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }

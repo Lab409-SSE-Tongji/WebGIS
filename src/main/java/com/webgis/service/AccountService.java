@@ -27,4 +27,20 @@ public interface AccountService {
      * @return
      */
     BaseResult<Object> update(WebAccount webAccount);
+
+    /**
+     * 给管理员分配地图
+     * @param mapId
+     * @param adminId
+     * @return
+     */
+    BaseResult<Object> assignMap(int mapId,int adminId);
+
+    /**
+     * 删除管理员的地图
+     * @param mapId
+     * @param adminId
+     * @return
+     */
+    BaseResult<Object> deleteMapOfAdmin(int mapId, int adminId);
 }

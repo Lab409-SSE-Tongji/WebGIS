@@ -47,15 +47,18 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         String userId = userContext.getUsername();
 
+
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader(SecurityConfiguration.HEADER_TOKEN, accessToken.getToken());
+
 
         PrintWriter out = null;
 
         try {
             out = response.getWriter();
-            out.append(userId);
+            System.out.println(userContext.toString());
+            out.append(userContext.toString());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

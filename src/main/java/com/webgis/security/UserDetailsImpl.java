@@ -33,7 +33,8 @@ public class UserDetailsImpl implements UserDetailsService {
         } else {
             List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority("USER"));
-            WebGISUser user = new WebGISUser(accountDO.getId(),accountDO.getName(),accountDO.getUsername(),accountDO.getPassword(),authorities,true,new Date());
+            WebGISUser user = new WebGISUser(accountDO.getId(),accountDO.getName(),accountDO.getUsername(),accountDO.getPassword(),
+                    accountDO.getRole(),accountDO.getCompany(),authorities,true,new Date());
             return user;
         }
     }

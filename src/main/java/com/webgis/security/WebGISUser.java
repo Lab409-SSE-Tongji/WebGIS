@@ -16,16 +16,32 @@ public class WebGISUser implements UserDetails {
     private final String name;
     private final String userName;
     private final String password;
+
+
+    private final String role;
+    private final String company;
     private final List<GrantedAuthority> authorities;
     private final boolean enabled;
 
-    public WebGISUser(Integer id, String name, String userName, String password, List<GrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
+    public WebGISUser(Integer id, String name, String userName, String password,String role,String company, List<GrantedAuthority> authorities, boolean enabled, Date lastPasswordResetDate) {
         this.id = id;
         this.name = name;
         this.userName = userName;
         this.password = password;
+        this.role=role;
+        this.company=company;
         this.authorities = authorities;
         this.enabled = enabled;
+    }
+
+    @JsonIgnore
+    public String getRole() {
+        return role;
+    }
+
+    @JsonIgnore
+    public String getCompany() {
+        return company;
     }
 
     @JsonIgnore

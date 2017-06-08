@@ -1,25 +1,12 @@
 package com.webgis.controller;
 
-import com.webgis.security.AuthenticationRequest;
-import com.webgis.security.SecurityConfiguration;
-import com.webgis.security.model.UserContext;
-import com.webgis.security.model.token.JwtToken;
 import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by Justin on 2017/3/8.
@@ -98,5 +85,29 @@ public class AccountController {
     public BaseResult<Object> update(@RequestBody WebAccount webAccount) {
 
         return accountService.update(webAccount);
+    }
+
+    /**
+     * 分配地图给管理员
+     * @param mapId
+     * @param adminId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/accounts/map",method = RequestMethod.POST)
+    public BaseResult<Object> assignMap(@RequestParam(required = true) Integer mapId,@RequestParam(required = true) Integer adminId){
+        return accountService.assignMap(mapId,adminId);
+    }
+
+    /**
+     * 删除管理员的地图
+     * @param mapId
+     * @param adminId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value="/accounts/map",method = RequestMethod.DELETE)
+    public BaseResult<Object> deleteMapOfAdmin(@RequestParam(required = true) Integer mapId,@RequestParam(required = true) Integer adminId){
+        return accountService.deleteMapOfAdmin(mapId,adminId);
     }
 }

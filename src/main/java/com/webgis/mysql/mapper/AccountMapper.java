@@ -1,5 +1,6 @@
 package com.webgis.mysql.mapper;
 
+import com.webgis.enums.RoleEnum;
 import com.webgis.mysql.entity.AccountDO;
 import org.apache.ibatis.annotations.*;
 
@@ -51,11 +52,8 @@ public interface AccountMapper {
     AccountDO getAccountById(@Param("id")Integer id);
 
 
-
-
-
-
-
+    @Select("SELECT * FROM account WHERE id=#{id} and role=\"ADMIN\"")
+    AccountDO getAdminById(@Param("id") Integer id);
 
     /**
      * 重置数据库
