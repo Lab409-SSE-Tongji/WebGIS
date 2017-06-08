@@ -17,8 +17,8 @@ public interface AccountMapper {
      * @param accountDO
      * @return
      */
-    @Insert("INSERT INTO account (name, username, password, create_time, update_time) " +
-            "VALUES (#{name}, #{username}, #{password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)")
+    @Insert("INSERT INTO account (name, username, password, create_time, update_time, role, company) " +
+            "VALUES (#{name}, #{username}, #{password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{role},#{company})")
     int insert(AccountDO accountDO);
 
     /**

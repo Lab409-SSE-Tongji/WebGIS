@@ -1,5 +1,6 @@
 package com.webgis.service.imp;
 
+import com.webgis.enums.RoleEnum;
 import com.webgis.mysql.entity.AccountDO;
 import com.webgis.mysql.entity.AdminMapDO;
 import com.webgis.mysql.mapper.AccountMapper;
@@ -10,9 +11,13 @@ import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Justin on 2017/3/8.
@@ -46,12 +51,12 @@ public class AccountServiceImp implements AccountService {
      * @return
      */
     @Override
-    public BaseResult<Object> register(WebAccount webAccount) {
+    public BaseResult<Object> register(WebAccount webAccount,String role) {
 
         if (accountMapper.getAccountByUsername(webAccount.getUsername()) != null) {
             return new BaseResult<>(500, "用户已经存在");
         }
-        accountMapper.insert(new AccountDO(webAccount));
+        accountMapper.insert(new AccountDO(webAccount, role));
         return new BaseResult<>();
     }
 
@@ -103,4 +108,15 @@ public class AccountServiceImp implements AccountService {
         adminMapMapper.deleteOne(mapId,adminId);
         return new BaseResult<>();
     }
+
+    @Override
+    public BaseResult<Object> getAdminOfMap(int mapId){
+        List<Integer> adminIdList=adminMapMapper.getAdminIdByMapId(mapId);
+        List<AccountDO> accountDOList=new ArrayList<>();
+        for(int adminId :adminIdList){
+            accountDOList.add(accountMapper.getAdminById(adminId));
+        }
+        return new BaseResult<>(accountDOList);
+    }
+
 }

@@ -7,6 +7,7 @@ import com.webgis.mongo.MongoHistoryRepository;
 import com.webgis.mongo.entity.MongoLayer;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.mysql.entity.MapDO;
+import com.webgis.mysql.mapper.AdminMapMapper;
 import com.webgis.mysql.mapper.MapMapper;
 import com.webgis.service.MapService;
 import com.webgis.web.BaseResult;
@@ -26,6 +27,9 @@ public class MapServiceImp implements MapService {
 
     @Autowired
     private MapMapper mapMapper;
+
+    @Autowired
+    private AdminMapMapper adminMapMapper;
 
     @Autowired
     private MongoMapRepository mongoMapRepository;
@@ -183,4 +187,13 @@ public class MapServiceImp implements MapService {
         return new BaseResult(layerTypeList);
     }
 
+    @Override
+    public BaseResult<Object> getMapByAdminId(int adminId){
+        List<Integer> mapIdList = adminMapMapper.getMapIdByAdminId(adminId);
+        List<MapDO> mapDOs = new ArrayList<>();
+        for(int mapId : mapIdList){
+            mapDOs.add(mapMapper.getMapById(mapId));
+        }
+        return new BaseResult<>(mapDOs);
+    }
 }

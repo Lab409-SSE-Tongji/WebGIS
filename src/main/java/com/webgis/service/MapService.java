@@ -69,4 +69,11 @@ public interface MapService {
     BaseResult<Object> getMapByAccountIdandFolderIdandPageId(int accountId, int folderId, int pageId);
 
     BaseResult<Object> getLayerIdAndType(int mapId);
+
+    /**
+     * 根据管理员id获取其管理的地图
+     * @param adminId
+     * @return
+     */
+    BaseResult<Object> getMapByAdminId(int adminId);
 }

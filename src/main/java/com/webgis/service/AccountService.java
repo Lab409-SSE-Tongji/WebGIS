@@ -14,7 +14,7 @@ public interface AccountService {
     /**
      * 用户注册
      */
-    BaseResult<Object> register(WebAccount webAccount);
+    BaseResult<Object> register(WebAccount webAccount,String role);
 
     /**
      * 删除用户
@@ -43,4 +43,19 @@ public interface AccountService {
      * @return
      */
     BaseResult<Object> deleteMapOfAdmin(int mapId, int adminId);
+
+    /**
+     * 获取地图的管理员
+     * @param mapId
+     * @return
+     */
+    BaseResult<Object> getAdminOfMap(int mapId);
+
+    /**
+     * 创建管理员
+     * @param webAccount
+     * @return
+     */
+//    BaseResult<Object> createAdmin(WebAccount webAccount);
+
 }

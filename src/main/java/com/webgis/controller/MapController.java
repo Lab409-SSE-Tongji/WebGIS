@@ -124,4 +124,16 @@ public class MapController {
         return mapService.getLayerIdAndType(mapId);
     }
 
+    /**
+     * 获取管理员管理的地图
+     * @param adminId
+     * @return
+     */
+    @RequestMapping(value="/maps/admin",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getMapByAdminId(@RequestParam("adminId") Integer adminId){
+        return mapService.getMapByAdminId(adminId);
+    }
+
+
 }

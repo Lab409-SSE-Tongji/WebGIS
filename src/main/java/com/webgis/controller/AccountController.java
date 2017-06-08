@@ -1,5 +1,6 @@
 package com.webgis.controller;
 
+import com.webgis.enums.RoleEnum;
 import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
@@ -34,7 +35,12 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/accounts", method = RequestMethod.POST)
     public BaseResult<Object> register(@RequestBody WebAccount webAccount) {
-        return accountService.register(webAccount);
+        return accountService.register(webAccount, RoleEnum.USER.toString());
+    }
+
+    @RequestMapping(value = "/accounts/admin",method = RequestMethod.POST)
+    public BaseResult<Object> createAdmin(@RequestBody WebAccount webAccount){
+        return accountService.register(webAccount,RoleEnum.ADMIN.toString());
     }
 
 //    /**
@@ -107,7 +113,13 @@ public class AccountController {
      */
     @ResponseBody
     @RequestMapping(value="/accounts/map",method = RequestMethod.DELETE)
-    public BaseResult<Object> deleteMapOfAdmin(@RequestParam(required = true) Integer mapId,@RequestParam(required = true) Integer adminId){
+    public BaseResult<Object> deleteMapOfAdmin(@RequestParam Integer mapId,@RequestParam Integer adminId){
         return accountService.deleteMapOfAdmin(mapId,adminId);
+    }
+
+    @RequestMapping(value = "/accounts/map",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getAdminsOfMap(@RequestParam Integer mapId){
+        return accountService.getAdminOfMap(mapId);
     }
 }

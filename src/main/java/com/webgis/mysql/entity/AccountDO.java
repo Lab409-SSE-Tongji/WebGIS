@@ -21,7 +21,16 @@ public class AccountDO extends BaseDO {
         setName(webAccount.getName());
         setUsername(webAccount.getUsername());
         setPassword(webAccount.getPassword());
+        setCompany(webAccount.getCompany());
+    }
 
+    public AccountDO(WebAccount webAccount,String role) {
+        setName(webAccount.getName());
+        setUsername(webAccount.getUsername());
+        setPassword(webAccount.getPassword());
+        System.out.println(role);
+        setRole(role);
+        setCompany(webAccount.getCompany());
     }
 
     public AccountDO() {
@@ -74,6 +83,7 @@ public class AccountDO extends BaseDO {
     public void setCompany(String company) {
         this.company = company;
     }
+
 
     @Override
     public String toString() {
