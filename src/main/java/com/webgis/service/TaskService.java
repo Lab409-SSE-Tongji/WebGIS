@@ -41,6 +41,14 @@ public interface TaskService {
     BaseResult<Object> finishTask(String taskId, Long date);
 
     /**
+     * pay task
+     * @param taskId
+     * @param date
+     * @return
+     */
+    BaseResult<Object> payTask(String taskId, Long date);
+
+    /**
      * 放弃任务
      * @param taskId
      * @return
@@ -53,6 +61,5 @@ public interface TaskService {
      * @return
      */
     BaseResult<Object> cancelTask(String taskId);
-
 
 }

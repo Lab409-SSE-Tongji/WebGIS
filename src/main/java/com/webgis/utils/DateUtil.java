@@ -12,13 +12,13 @@ import java.util.Objects;
  */
 public class DateUtil {
     public static String longToTimestamp(Long date) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date time = new Date(date);
         return sdf.format(time);
     }
 
     public static Long timestampToLong(String dateStr) throws ParseException {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = simpleDateFormat.parse(dateStr);
         return date.getTime();
     }
