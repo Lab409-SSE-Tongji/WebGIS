@@ -31,11 +31,13 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
     private final ObjectMapper objectMapper;
 
     private final AuthenticationSuccessHandler successHandler;
-//    private final AuthenticationFailureHandler failureHandler;
+    private final AuthenticationFailureHandler failureHandler;
 
-    public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler, ObjectMapper mapper) {
+    public AjaxLoginProcessingFilter(String defaultProcessUrl, AuthenticationSuccessHandler successHandler,
+                                     AuthenticationFailureHandler failureHandler, ObjectMapper mapper) {
         super(defaultProcessUrl);
         this.successHandler=successHandler;
+        this.failureHandler=failureHandler;
         this.objectMapper = mapper;
     }
 
@@ -69,20 +71,20 @@ public class AjaxLoginProcessingFilter extends AbstractAuthenticationProcessingF
         successHandler.onAuthenticationSuccess(request, response, authResult);
     }
 
-//    @Override
-//    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-//                                              AuthenticationException failed) throws IOException, ServletException {
-//        SecurityContextHolder.clearContext();
-//        failureHandler.onAuthenticationFailure(request, response, failed);
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+        SecurityContextHolder.clearContext();
+        failureHandler.onAuthenticationFailure(request, response, failed);
+    }
+
+//    protected String obtainUsername(HttpServletRequest request) {
+//        Object obj = request.getParameter("username");
+//        return null == obj ? "" : obj.toString();
 //    }
-
-    protected String obtainUsername(HttpServletRequest request) {
-        Object obj = request.getParameter("username");
-        return null == obj ? "" : obj.toString();
-    }
-
-    protected String obtainPassword(HttpServletRequest request) {
-        Object obj = request.getParameter("password");
-        return null == obj ? "" : obj.toString();
-    }
+//
+//    protected String obtainPassword(HttpServletRequest request) {
+//        Object obj = request.getParameter("password");
+//        return null == obj ? "" : obj.toString();
+//    }
 }

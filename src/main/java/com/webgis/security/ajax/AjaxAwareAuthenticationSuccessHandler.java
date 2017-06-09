@@ -5,6 +5,7 @@ import com.webgis.security.SecurityConfiguration;
 import com.webgis.security.model.UserContext;
 import com.webgis.security.model.token.JwtToken;
 import com.webgis.security.model.token.JwtTokenFactory;
+import com.webgis.web.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,9 +46,6 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
         JwtToken accessToken = tokenFactory.createAccessJwtToken(userContext);
 
 
-        String userId = userContext.getUsername();
-
-
         response.setStatus(HttpStatus.OK.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setHeader(SecurityConfiguration.HEADER_TOKEN, accessToken.getToken());
@@ -57,8 +55,7 @@ public class AjaxAwareAuthenticationSuccessHandler implements AuthenticationSucc
 
         try {
             out = response.getWriter();
-            System.out.println(userContext.toString());
-            out.append(userContext.toString());
+            out.append(new BaseResult<>(userContext).toString());
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

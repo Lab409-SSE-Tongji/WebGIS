@@ -3,12 +3,13 @@ package com.webgis.security.model;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by CCMEOW on 2017/5/11.
  */
-public class UserContext {
+public class UserContext implements Serializable {
     private final String username;
     private final String role;
     private final String company;

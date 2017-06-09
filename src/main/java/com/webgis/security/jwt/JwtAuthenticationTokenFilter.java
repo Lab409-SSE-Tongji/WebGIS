@@ -32,10 +32,12 @@ import java.util.regex.Matcher;
  */
 public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
     private final TokenExtractor tokenExtractor;
+    private final AuthenticationFailureHandler failureHandler;
 
     @Autowired
-    public JwtAuthenticationTokenFilter(TokenExtractor tokenExtractor, RequestMatcher matcher) {
+    public JwtAuthenticationTokenFilter(TokenExtractor tokenExtractor, AuthenticationFailureHandler failureHandler, RequestMatcher matcher) {
         super(matcher);
+        this.failureHandler = failureHandler;
         this.tokenExtractor = tokenExtractor;
     }
 
@@ -55,5 +57,13 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
         context.setAuthentication(authResult);
         SecurityContextHolder.setContext(context);
         chain.doFilter(request, response);
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
+        System.out.println("失败了啊！");
+        SecurityContextHolder.clearContext();
+        failureHandler.onAuthenticationFailure(request, response, failed);
     }
 }

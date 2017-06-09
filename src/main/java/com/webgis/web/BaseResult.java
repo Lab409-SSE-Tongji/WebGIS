@@ -58,4 +58,13 @@ public class BaseResult<T> implements Serializable {
     public void setData(T data) {
         this.data = data;
     }
+
+    @Override
+    public String toString(){
+        return "{\n" +
+                "\t\"code\":"+code+",\n" +
+                "\t\"message\":\""+message+"\",\n" +
+                "\t\"data\":"+data+"\n" +
+                "}";
+    }
 }

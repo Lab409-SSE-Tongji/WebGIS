@@ -46,7 +46,6 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
 
         WebGISUser user = (WebGISUser) userDetailsService.loadUserByUsername(username);
-
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }

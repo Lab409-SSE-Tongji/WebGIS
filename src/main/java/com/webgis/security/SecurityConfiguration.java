@@ -18,6 +18,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -48,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired private ObjectMapper objectMapper;
 
     @Autowired private AuthenticationSuccessHandler successHandler;
+    @Autowired private AuthenticationFailureHandler failureHandler;
     public static final String LOGIN_ENTRY_POINT = "/auth/token";
     public static final String REGISTER_ENTRY_POINT = "/account/accounts";
     public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/**";
@@ -110,7 +112,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     protected AjaxLoginProcessingFilter ajaxLoginProcessingFilterBean() throws Exception {
-        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(LOGIN_ENTRY_POINT,successHandler,objectMapper);
+        AjaxLoginProcessingFilter filter = new AjaxLoginProcessingFilter(
+                LOGIN_ENTRY_POINT,successHandler,failureHandler,objectMapper);
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
@@ -118,7 +121,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
         List<String> pathsToSkip = Arrays.asList(REGISTER_ENTRY_POINT,LOGIN_ENTRY_POINT);
         SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
-        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter(tokenExtractor,matcher);
+        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter(tokenExtractor,failureHandler,matcher);
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
