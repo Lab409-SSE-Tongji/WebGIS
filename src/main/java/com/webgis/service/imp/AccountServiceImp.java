@@ -96,6 +96,9 @@ public class AccountServiceImp implements AccountService {
         if(mapMapper.getMapById(mapId)==null){
             return new BaseResult<>(500,"地图不存在");
         }
+        if(adminMapMapper.getAdminMap(mapId,adminId)!=null){
+            return new BaseResult<>(500,"管理员已管理该地图");
+        }
         adminMapMapper.insert(new AdminMapDO(mapId,adminId));
         return new BaseResult<>();
     }

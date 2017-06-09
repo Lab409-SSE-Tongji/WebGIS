@@ -40,6 +40,7 @@ public interface AdminMapMapper {
     @Select("SELECT admin_id FROM admin_map WHERE map_id=#{map_id}")
     List<Integer> getAdminIdByMapId(@Param("map_id") int map_id);
 
+
     @Delete("DELETE FROM admin_map WHERE map_id=#{map_id} AND admin_id=#{admin_id}")
     int deleteOne(@Param("map_id") Integer map_id,@Param("admin_id") Integer admin_id);
 
