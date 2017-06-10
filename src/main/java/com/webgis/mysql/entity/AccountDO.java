@@ -1,5 +1,6 @@
 package com.webgis.mysql.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.webgis.web.dto.WebAccount;
 
 import java.sql.Timestamp;
@@ -13,24 +14,24 @@ public class AccountDO extends BaseDO {
 
     private String name;
     private String username;
-    private String password;
-    private String role;
+    @JsonIgnore private String password;
+    @JsonIgnore private String role;
     private String company;
+    private Integer super_admin_id;
 
     public AccountDO(WebAccount webAccount) {
         setName(webAccount.getName());
         setUsername(webAccount.getUsername());
         setPassword(webAccount.getPassword());
-        setCompany(webAccount.getCompany());
     }
 
     public AccountDO(WebAccount webAccount,String role) {
         setName(webAccount.getName());
         setUsername(webAccount.getUsername());
         setPassword(webAccount.getPassword());
-        System.out.println(role);
         setRole(role);
         setCompany(webAccount.getCompany());
+        setSuper_admin_id(webAccount.getSuperAdminId());
     }
 
     public AccountDO() {
@@ -84,6 +85,14 @@ public class AccountDO extends BaseDO {
         this.company = company;
     }
 
+    public void setSuper_admin_id(Integer super_admin_id) {
+        this.super_admin_id = super_admin_id;
+    }
+
+
+    public Integer getSuper_admin_id() {
+        return super_admin_id;
+    }
 
     @Override
     public String toString() {

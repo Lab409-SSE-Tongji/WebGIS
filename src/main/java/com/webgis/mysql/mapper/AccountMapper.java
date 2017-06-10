@@ -4,6 +4,8 @@ import com.webgis.enums.RoleEnum;
 import com.webgis.mysql.entity.AccountDO;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * Created by Justin on 2017/3/8.
  * account表 数据库接口
@@ -17,8 +19,9 @@ public interface AccountMapper {
      * @param accountDO
      * @return
      */
-    @Insert("INSERT INTO account (name, username, password, create_time, update_time, role, company) " +
-            "VALUES (#{name}, #{username}, #{password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{role},#{company})")
+    @Insert("INSERT INTO account (name, username, password, create_time, update_time, role, company,super_admin_id) " +
+            "VALUES (#{name}, #{username}, #{password}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP," +
+            " #{role},#{company},#{super_admin_id})")
     int insert(AccountDO accountDO);
 
     /**
@@ -54,6 +57,12 @@ public interface AccountMapper {
 
     @Select("SELECT * FROM account WHERE id=#{id} and role=\"ADMIN\"")
     AccountDO getAdminById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM account WHERE id=#{id} and role=\"SUPER_ADMIN\"")
+    AccountDO getSuperAdminById(@Param("id") Integer id);
+
+    @Select("SELECT id FROM account WHERE super_admin_id=#{super_admin_id} and role=\"ADMIN\"")
+    List<Integer> getadminIdsBySuperAdminId(@Param("super_admin_id") Integer id);
 
     /**
      * 重置数据库

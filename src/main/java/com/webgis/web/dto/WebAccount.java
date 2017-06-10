@@ -16,6 +16,7 @@ public class WebAccount implements Serializable{
     private String password;
     private String company;
     private String role;
+    private Integer superAdminId;
 
     public WebAccount(String name, String username, String password) {
         setName(name);
@@ -60,16 +61,6 @@ public class WebAccount implements Serializable{
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "AccountDTO{" +
-                "name='" + getName() + '\'' +
-                ", username='" + getUsername() + '\'' +
-                ", password='" + getPassword() + '\'' +
-                '}';
-    }
-
-
     public String getCompany() {
         return company;
     }
@@ -86,4 +77,20 @@ public class WebAccount implements Serializable{
         this.role = role;
     }
 
+    public Integer getSuperAdminId() {
+        return superAdminId;
+    }
+
+    public void setSuperAdminId(int superAdminId) {
+        this.superAdminId = superAdminId;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "name='" + getName() + '\'' +
+                ", username='" + getUsername() + '\'' +
+                ", password='" + getPassword() + '\'' +
+                '}';
+    }
 }

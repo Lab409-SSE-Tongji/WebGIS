@@ -56,6 +56,9 @@ public class AccountServiceImp implements AccountService {
         if (accountMapper.getAccountByUsername(webAccount.getUsername()) != null) {
             return new BaseResult<>(500, "用户已经存在");
         }
+        if(webAccount.getSuperAdminId()!=null&&accountMapper.getSuperAdminById(webAccount.getSuperAdminId())==null){
+            return new BaseResult<>(200,"超级管理员不存在");
+        }
         accountMapper.insert(new AccountDO(webAccount, role));
         return new BaseResult<>();
     }
@@ -121,5 +124,19 @@ public class AccountServiceImp implements AccountService {
         }
         return new BaseResult<>(accountDOList);
     }
+
+    @Override
+    public BaseResult<Object> getAdminsBySuperAdmin(int superAdminId){
+        if(accountMapper.getSuperAdminById(superAdminId)==null){
+            return new BaseResult<>(500,"超级管理员不存在");
+        }
+        List<Integer> adminIdList = accountMapper.getadminIdsBySuperAdminId(superAdminId);
+        List<AccountDO> accountDOList = new ArrayList<>();
+        for (int adminId:adminIdList){
+            accountDOList.add(accountMapper.getAdminById(adminId));
+        }
+        return new BaseResult<>(accountDOList);
+    }
+
 
 }

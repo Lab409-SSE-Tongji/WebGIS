@@ -122,4 +122,10 @@ public class AccountController {
     public BaseResult<Object> getAdminsOfMap(@RequestParam Integer mapId){
         return accountService.getAdminOfMap(mapId);
     }
+
+    @RequestMapping(value = "/accounts/admin",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getAdminsBySuperAdmin(@RequestParam Integer superAdminId){
+        return accountService.getAdminsBySuperAdmin(superAdminId);
+    }
 }

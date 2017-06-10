@@ -58,4 +58,10 @@ public interface AccountService {
      */
 //    BaseResult<Object> createAdmin(WebAccount webAccount);
 
+    /**
+     * 获取超级管理员管理的管理员
+     * @param superAdminId
+     * @return
+     */
+    BaseResult<Object> getAdminsBySuperAdmin(int superAdminId);
 }
