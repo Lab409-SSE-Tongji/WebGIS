@@ -1,6 +1,10 @@
 package com.webgis.domain.base;
 
 import com.webgis.enums.StatusEnum;
+import com.webgis.utils.DateUtil;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Justin on 2017/3/14.
@@ -13,11 +17,14 @@ public class PointDomain {
 
     private String url;
     private String id;
+    private Long specialId;
 
     private double x;
     private double y;
     private double z;
     private StatusEnum status;
+
+    private List<String> repairIds;
 
     public PointDomain() {
     }
@@ -29,6 +36,23 @@ public class PointDomain {
         this.y = y;
         this.z = z;
         this.status = status;
+        this.specialId = new Date().getTime();
+    }
+
+    public List<String> getRepairIds() {
+        return repairIds;
+    }
+
+    public void setRepairIds(List<String> repairIds) {
+        this.repairIds = repairIds;
+    }
+
+    public Long getSpecialId() {
+        return specialId;
+    }
+
+    public void setSpecialId(Long specialId) {
+        this.specialId = specialId;
     }
 
     public void setId(String id) {
