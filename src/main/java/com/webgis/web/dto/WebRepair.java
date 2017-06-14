@@ -1,21 +1,20 @@
 package com.webgis.web.dto;
 
-
 import com.webgis.enums.ReportStateEnum;
 
-import java.io.Serializable;
+/**
+ * Created by CCMEOW on 2017/6/14.
+ */
+public class WebRepair {
 
-public class WebRepair implements Serializable {
     private String id;
-
     private Long specialId;
     private String layerId;
-    private int mapId;
     private int userId;
 
     private String desc;
-    private Long createDate;
     private ReportStateEnum state;
+
 
     public String getId() {
         return id;
@@ -41,13 +40,6 @@ public class WebRepair implements Serializable {
         this.layerId = layerId;
     }
 
-    public int getMapId() {
-        return mapId;
-    }
-
-    public void setMapId(int mapId) {
-        this.mapId = mapId;
-    }
 
     public int getUserId() {
         return userId;
@@ -65,13 +57,6 @@ public class WebRepair implements Serializable {
         this.desc = desc;
     }
 
-    public Long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
 
     public ReportStateEnum getState() {
         return state;
