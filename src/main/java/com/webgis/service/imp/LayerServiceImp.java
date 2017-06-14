@@ -1,11 +1,13 @@
 package com.webgis.service.imp;
 
 import com.webgis.domain.base.BaseDomain;
+import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CommonCoverDomain;
 import com.webgis.domain.pipe.CommonPipeDomain;
 import com.webgis.enums.TypeEnum;
 import com.webgis.mongo.MongoLayerRepository;
 import com.webgis.mongo.MongoMapRepository;
+import com.webgis.mongo.MongoRepairRepository;
 import com.webgis.mongo.entity.MongoLayer;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.service.ExcelService;
@@ -43,6 +45,9 @@ public class  LayerServiceImp implements LayerService {
 
     @Autowired
     private MongoLayerRepository mongoLayerRepository;
+
+    @Autowired
+    private MongoRepairRepository mongoRepairRepository;
 
 
     /**
@@ -164,5 +169,27 @@ public class  LayerServiceImp implements LayerService {
     @Override
     public BaseResult<Object> getLayer(String layerId) {
         return new BaseResult<>(mongoLayerRepository.findById(layerId));
+    }
+
+    /**
+     * 获取所有图层
+     */
+    @Override
+    public BaseResult<Object> getAllLayer() {
+        List<MongoLayer> layers = mongoLayerRepository.findAll();
+        for(MongoLayer layer : layers) {
+            if (layer.getData().getClass() == CommonCoverDomain.class) {
+                List<PointDomain> points = ((CommonCoverDomain) layer.getData()).getPointList();
+                if (points != null) {
+                    for (PointDomain point : points) {
+                        for (String repairId : point.getRepairIds()) {
+//                            point.getRepairs().add()
+                            point.getRepairs().add(mongoRepairRepository.findById(repairId));
+                        }
+                    }
+                }
+            }
+        }
+        return new BaseResult<>(layers);
     }
 }
