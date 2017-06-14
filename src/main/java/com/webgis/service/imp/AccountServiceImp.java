@@ -96,6 +96,16 @@ public class AccountServiceImp implements AccountService {
     }
 
     @Override
+    public BaseResult<Object> deleteAdmin(int id){
+        if (accountMapper.getAccountById(id) == null) {
+            return new BaseResult<>(500, "管理员不存在");
+        }
+        adminMapMapper.deleteByAdminId(id);
+        accountMapper.deleteById(id);
+        return new BaseResult<>();
+    }
+
+    @Override
     public BaseResult<Object> assignMap(int mapId,int adminId){
         if (accountMapper.getAdminById(adminId) == null) {
             return new BaseResult<>(500, "管理员不存在或该用户不是管理员");

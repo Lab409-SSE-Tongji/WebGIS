@@ -32,6 +32,9 @@ public interface AccountMapper {
     @Delete("DELETE FROM account WHERE username=#{username}")
     int deleteAccount(@Param("username") String userName);
 
+    @Delete("DELETE FROM account WHERE id=#{id}")
+    int deleteById(@Param("id")Integer id);
+
     /**
      * 更新用户信息
      * @param accountDO
