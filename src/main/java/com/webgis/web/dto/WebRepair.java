@@ -1,35 +1,22 @@
-package com.webgis.mongo.entity;
+package com.webgis.web.dto;
 
 import com.webgis.enums.ReportStateEnum;
-import com.webgis.web.dto.WebRepair;
-import com.webgis.web.dto.WebTask;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.sql.Timestamp;
+/**
+ * Created by CCMEOW on 2017/6/14.
+ */
+public class WebRepair {
 
-@Document(collection = "repair")
-public class MongoRepair {
-    @Id
     private String id;
-
     private Long specialId;
     private String layerId;
     private int userId;
 
     private String desc;
-    private Timestamp createDate;
     private ReportStateEnum state;
 
-    public MongoRepair(long specialId,String layerId,int userId,
-                       String desc,ReportStateEnum reportStateEnum){
-        this.specialId = specialId;
-        this.layerId = layerId;
-        this.userId = userId;
-        this.desc = desc;
-        this.createDate = new Timestamp(System.currentTimeMillis());
-        this.state = reportStateEnum;
-    }
+
+
 
     public String getId() {
         return id;
@@ -77,14 +64,6 @@ public class MongoRepair {
 
     public void setState(ReportStateEnum state) {
         this.state = state;
-    }
-
-    public Timestamp getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Timestamp createDate) {
-        this.createDate = createDate;
     }
 
 }
