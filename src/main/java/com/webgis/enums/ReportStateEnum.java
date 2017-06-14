@@ -31,4 +31,13 @@ public enum ReportStateEnum {
     public void setValue(String value) {
         this.value = value;
     }
+
+    public static ReportStateEnum getEnum(String type) {
+        for (ReportStateEnum stateEnum : ReportStateEnum.values()) {
+            if (stateEnum.name().equals(type)) {
+                return stateEnum;
+            }
+        }
+        return null;
+    }
 }
