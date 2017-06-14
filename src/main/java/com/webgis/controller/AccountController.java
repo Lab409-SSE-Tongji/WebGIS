@@ -38,6 +38,11 @@ public class AccountController {
         return accountService.register(webAccount, RoleEnum.USER.toString());
     }
 
+    /**
+     * 创建管理员
+     * @param webAccount
+     * @return
+     */
     @RequestMapping(value = "/accounts/admin",method = RequestMethod.POST)
     public BaseResult<Object> createAdmin(@RequestBody WebAccount webAccount){
         return accountService.register(webAccount,RoleEnum.ADMIN.toString());
