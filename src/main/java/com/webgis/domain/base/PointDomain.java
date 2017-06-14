@@ -1,8 +1,11 @@
 package com.webgis.domain.base;
 
 import com.webgis.enums.StatusEnum;
+import com.webgis.mongo.entity.MongoRepair;
 import com.webgis.utils.DateUtil;
+import com.webgis.web.dto.WebRepair;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,8 +28,11 @@ public class PointDomain {
     private StatusEnum status;
 
     private List<String> repairIds;
+    private List<MongoRepair> repairs;
 
     public PointDomain() {
+        this.repairIds = new ArrayList<>();
+        this.repairs = new ArrayList<>();
     }
 
     public PointDomain(double x, double y, double z, StatusEnum status, String url) {
@@ -37,10 +43,19 @@ public class PointDomain {
         this.z = z;
         this.status = status;
         this.specialId = new Date().getTime();
+        this.repairIds = new ArrayList<>();
     }
 
     public List<String> getRepairIds() {
         return repairIds;
+    }
+
+    public List<MongoRepair> getRepairs() {
+        return repairs;
+    }
+
+    public void setRepairs(List<MongoRepair> repairs) {
+        this.repairs = repairs;
     }
 
     public void setRepairIds(List<String> repairIds) {

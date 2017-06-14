@@ -1,5 +1,6 @@
 package com.webgis.service;
 
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.webgis.enums.TypeEnum;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebLayer;
@@ -41,4 +42,9 @@ public interface LayerService {
      * 获取单个图层
      */
     BaseResult<Object> getLayer(String layerId);
+
+    /**
+     * 获取所有存在的地图
+     */
+    BaseResult<Object> getAllLayer();
 }

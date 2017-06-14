@@ -96,6 +96,18 @@ public class LayerController {
         return layerService.getLayer(mapId);
     }
 
+
+    /**
+     * 获取图层数据接口
+     * @return
+     */
+    @RequestMapping(value = "/layers/all", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getAllLayer() {
+        return layerService.getAllLayer();
+    }
+
+
     /**
      * 获取单个图层数据接口
      * @param layerId

@@ -16,8 +16,6 @@ public class WebRepair {
     private String state;
 
 
-
-
     public String getId() {
         return id;
     }
@@ -42,6 +40,7 @@ public class WebRepair {
         this.layerId = layerId;
     }
 
+
     public int getUserId() {
         return userId;
     }
@@ -65,5 +64,4 @@ public class WebRepair {
     public void setState(String state) {
         this.state = state;
     }
-
 }
