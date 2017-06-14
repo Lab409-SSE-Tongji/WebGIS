@@ -31,5 +31,5 @@ public interface RepairService {
      * @param repairId
      * @return
      */
-    BaseResult<Object> deleteFromLayer(String layerId,String specialId,String repairId);
+    BaseResult<Object> deleteFromLayer(String layerId,Long specialId,String repairId);
 }

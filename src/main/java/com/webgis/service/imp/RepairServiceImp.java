@@ -83,7 +83,7 @@ public class RepairServiceImp implements RepairService {
     }
 
     @Override
-    public BaseResult<Object> deleteFromLayer(String layerId,String specialId,String repairId){
+    public BaseResult<Object> deleteFromLayer(String layerId,Long specialId,String repairId){
         MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
         if(mongoLayer==null){
             return new BaseResult<>(500,"图层不存在");
@@ -94,10 +94,13 @@ public class RepairServiceImp implements RepairService {
             List<PointDomain> pointDomainList = coverDomain.getPointList();
             boolean flag=true;
             for (PointDomain pointDomain:pointDomainList) {
+                System.out.println(pointDomain.getSpecialId());
                 if(pointDomain.getSpecialId().equals(specialId)){
+                    System.out.println("true");
                     Iterator<String> iterator = pointDomain.getRepairIds().iterator();
                     while(iterator.hasNext()){
                         String id = iterator.next();
+                        System.out.println(id);
                         if(id.equals(repairId)){
                             iterator.remove();
                             flag=false;

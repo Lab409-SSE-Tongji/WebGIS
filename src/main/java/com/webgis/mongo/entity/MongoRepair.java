@@ -8,6 +8,7 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Document(collection = "repair")
 public class MongoRepair {
@@ -19,7 +20,7 @@ public class MongoRepair {
     private int userId;
 
     private String desc;
-    private Timestamp createDate;
+    private Date createDate;
     private ReportStateEnum state;
 
     @PersistenceConstructor
@@ -29,7 +30,7 @@ public class MongoRepair {
         this.layerId = layerId;
         this.userId = userId;
         this.desc = desc;
-        this.createDate = new Timestamp(System.currentTimeMillis());
+        this.createDate = new Date();
         this.state = state;
     }
 
@@ -81,11 +82,11 @@ public class MongoRepair {
         this.state = state;
     }
 
-    public Timestamp getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

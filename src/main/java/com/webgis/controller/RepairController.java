@@ -39,7 +39,7 @@ public class RepairController {
     @ResponseBody
     @RequestMapping(value = "/repair/layer/{layerId}/{specialId}/{repairId}",method = RequestMethod.DELETE)
     public BaseResult<Object> deleteRepairFromLayer(@PathVariable("layerId")String layerId,
-                                                    @PathVariable("specialId") String specialId,
+                                                    @PathVariable("specialId") Long specialId,
                                                     @PathVariable("repairId") String repairId){
         return repairService.deleteFromLayer(layerId,specialId,repairId);
     }
