@@ -13,7 +13,7 @@ public class WebRepair {
     private int userId;
 
     private String desc;
-    private ReportStateEnum state;
+    private String state;
 
 
     public String getId() {
@@ -57,12 +57,11 @@ public class WebRepair {
         this.desc = desc;
     }
 
-
-    public ReportStateEnum getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(ReportStateEnum state) {
+    public void setState(String state) {
         this.state = state;
     }
 }
