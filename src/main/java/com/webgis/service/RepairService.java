@@ -39,4 +39,6 @@ public interface RepairService {
      * @return
      */
     BaseResult<Object> findAllByUserId(int userId);
+
+    BaseResult<Object> findAll();
 }

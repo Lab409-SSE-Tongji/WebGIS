@@ -39,12 +39,22 @@ public interface LayerService {
     BaseResult<Object> getLayer(int mapId);
 
     /**
+     * 获取全部图层以及报修信息
+     */
+    BaseResult<Object> getLayerWithRepair(int mapId);
+
+    /**
      * 获取单个图层
      */
     BaseResult<Object> getLayer(String layerId);
 
     /**
-     * 获取所有存在的地图
+     * 获取单个图层以及报修信息
+     */
+    BaseResult<Object> getLayerWithRepair(String layerId);
+
+    /**
+     * 获取所有存在的地图以及报修信息
      */
     BaseResult<Object> getAllLayer();
 }

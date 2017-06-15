@@ -5,26 +5,22 @@ import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CommonCoverDomain;
 import com.webgis.domain.pipe.CommonPipeDomain;
 import com.webgis.enums.TypeEnum;
+import com.webgis.mongo.MongoHistoryRepository;
 import com.webgis.mongo.MongoLayerRepository;
 import com.webgis.mongo.MongoMapRepository;
 import com.webgis.mongo.MongoRepairRepository;
+import com.webgis.mongo.entity.MongoHistory;
 import com.webgis.mongo.entity.MongoLayer;
 import com.webgis.mongo.entity.MongoMap;
 import com.webgis.service.ExcelService;
 import com.webgis.service.LayerService;
 import com.webgis.web.BaseResult;
-import com.webgis.web.dto.WebLayer;
-import com.webgis.web.dto.WebLineLayer;
-import com.webgis.web.dto.WebPointLayer;
-import com.webgis.web.dto.WebMapContent;
+import com.webgis.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +45,8 @@ public class  LayerServiceImp implements LayerService {
     @Autowired
     private MongoRepairRepository mongoRepairRepository;
 
+    @Autowired
+    private MongoHistoryRepository mongoHistoryRepository;
 
     /**
      * 新建图层
@@ -164,6 +162,23 @@ public class  LayerServiceImp implements LayerService {
         return new BaseResult<>(new WebMapContent(mapId, list));
     }
 
+
+    @Override
+    public BaseResult<Object> getLayerWithRepair(int mapId) {
+        List<MongoLayer> layers = new ArrayList<>();
+        layers.addAll(mongoMapRepository.findByMapId(mapId).getLayerIds().stream().map(layerId -> mongoLayerRepository.findById(layerId)).collect(Collectors.toList()));
+        for (MongoLayer layer : layers) {
+            addRepairIntoLayer(layer);
+        }
+        return new BaseResult<>(new WebMapContent(mapId, layers));
+    }
+
+    @Override
+    public BaseResult<Object> getLayerWithRepair(String layerId) {
+        MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
+        addRepairIntoLayer(mongoLayer);
+        return new BaseResult<>(mongoLayer);
+    }
     /**
      * 获单个图层
      * @param layerId
@@ -180,18 +195,39 @@ public class  LayerServiceImp implements LayerService {
     @Override
     public BaseResult<Object> getAllLayer() {
         List<MongoLayer> layers = mongoLayerRepository.findAll();
-        for(MongoLayer layer : layers) {
-            if (layer.getData().getClass() == CommonCoverDomain.class) {
-                List<PointDomain> points = ((CommonCoverDomain) layer.getData()).getPointList();
-                if (points != null) {
-                    for (PointDomain point : points) {
-                        for (String repairId : point.getRepairIds()) {
-                            point.getRepairs().add(mongoRepairRepository.findById(repairId));
-                        }
+        List<MongoHistory> histories = mongoHistoryRepository.findAll();
+        List<MongoLayer> newLayers = new ArrayList<>();
+        for (MongoLayer layer : layers) {
+            boolean isHistory = false;
+            for (MongoHistory history : histories) {
+                for (WebLayerType webLayer : history.getData()) {
+                    if (Objects.equals(webLayer.getId(), layer.getId())) {
+                        isHistory = true;
+                        break;
+                    }
+                }
+            }
+            if (!isHistory) {
+                newLayers.add(layer);
+            }
+        }
+        for (MongoLayer layer : newLayers) {
+            addRepairIntoLayer(layer);
+        }
+        return new BaseResult<>(newLayers);
+    }
+
+    private void addRepairIntoLayer(MongoLayer layer) {
+        if (layer.getData().getClass() == CommonCoverDomain.class) {
+            List<PointDomain> points = ((CommonCoverDomain) layer.getData()).getPointList();
+            if (points != null) {
+                for (PointDomain point : points) {
+                    for (String repairId : point.getRepairIds()) {
+                        point.getRepairs().add(mongoRepairRepository.findById(repairId));
                     }
                 }
             }
         }
-        return new BaseResult<>(layers);
+
     }
 }
