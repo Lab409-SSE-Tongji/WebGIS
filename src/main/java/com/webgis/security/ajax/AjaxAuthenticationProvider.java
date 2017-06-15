@@ -38,14 +38,13 @@ public class AjaxAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        System.out.println("ajax provider");
         Assert.notNull(authentication, "No authentication data provided");
 
         String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-
         WebGISUser user = (WebGISUser) userDetailsService.loadUserByUsername(username);
+
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new BadCredentialsException("Authentication Failed. Username or Password not valid.");
         }

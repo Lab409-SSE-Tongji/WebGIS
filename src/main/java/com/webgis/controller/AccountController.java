@@ -38,6 +38,11 @@ public class AccountController {
         return accountService.register(webAccount, RoleEnum.USER.toString());
     }
 
+    /**
+     * 创建管理员
+     * @param webAccount
+     * @return
+     */
     @RequestMapping(value = "/accounts/admin",method = RequestMethod.POST)
     public BaseResult<Object> createAdmin(@RequestBody WebAccount webAccount){
         return accountService.register(webAccount,RoleEnum.ADMIN.toString());
@@ -81,6 +86,12 @@ public class AccountController {
         return accountService.deleteAccount(userName);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/account/admin/{id}", method = RequestMethod.DELETE)
+    public BaseResult<Object> deleteAdmin(@PathVariable("id") Integer id){
+        return accountService.deleteAdmin(id);
+    }
+
     /**
      * 更新用户信息
      * @param webAccount
@@ -117,12 +128,22 @@ public class AccountController {
         return accountService.deleteMapOfAdmin(mapId,adminId);
     }
 
+    /**
+     * 获取地图的管理者
+     * @param mapId
+     * @return
+     */
     @RequestMapping(value = "/accounts/map",method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getAdminsOfMap(@RequestParam Integer mapId){
         return accountService.getAdminOfMap(mapId);
     }
 
+    /**
+     * 获取超级管理员管理的管理员
+     * @param superAdminId
+     * @return
+     */
     @RequestMapping(value = "/accounts/admin",method = RequestMethod.GET)
     @ResponseBody
     public BaseResult<Object> getAdminsBySuperAdmin(@RequestParam Integer superAdminId){

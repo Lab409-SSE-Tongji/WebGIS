@@ -44,6 +44,9 @@ public interface AdminMapMapper {
     @Delete("DELETE FROM admin_map WHERE map_id=#{map_id} AND admin_id=#{admin_id}")
     int deleteOne(@Param("map_id") Integer map_id,@Param("admin_id") Integer admin_id);
 
+    @Delete("DELETE FROM admin_map WHERE admin_id=#{admin_id}")
+    int deleteByAdminId(@Param("admin_id")Integer admin_id);
+
     /**
      * 重置数据库
      * @return

@@ -30,10 +30,8 @@ public class AjaxAwareAuthenticationFailureHandler implements AuthenticationFail
         try {
             out = response.getWriter();
             if(e instanceof UsernameNotFoundException){
-                System.out.println(new BaseResult<>(500, "User not found").toString());
                 out.append(new BaseResult<>(500, "User not found").toString());
-            }
-            if (e instanceof BadCredentialsException) {
+            } else if (e instanceof BadCredentialsException) {
                 out.append(new BaseResult<>(500, "Username or password invalid").toString());
             } else if (e instanceof JwtExpiredTokenException) {
                 out.append(new BaseResult<>(500, "Token has expired").toString());

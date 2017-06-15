@@ -22,6 +22,11 @@ public interface AccountService {
     BaseResult<Object> deleteAccount(String userName);
 
     /**
+     * 删除管理员
+     */
+    BaseResult<Object> deleteAdmin(int id);
+
+    /**
      * 更新用户信息
      * @param webAccount
      * @return

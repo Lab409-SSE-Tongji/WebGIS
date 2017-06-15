@@ -53,7 +53,7 @@ public class UserContext implements Serializable {
         return "{\n" +
                 "\t\"id\":"+username+",\n" +
                 "\t\"role\":\""+role+"\",\n" +
-                "\t\"company\":"+company+"\n" +
+                "\t\"company\":\""+company+"\"\n" +
                 "}";
     }
 }
