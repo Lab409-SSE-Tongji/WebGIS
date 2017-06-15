@@ -1,7 +1,9 @@
 package com.webgis.service.imp;
 
+import com.webgis.domain.base.LineDomain;
 import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CoverDomain;
+import com.webgis.domain.pipe.PipeDomain;
 import com.webgis.enums.ReportStateEnum;
 import com.webgis.enums.TypeEnum;
 import com.webgis.mongo.MongoLayerRepository;
@@ -16,6 +18,7 @@ import com.webgis.web.dto.WebRepair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.channels.Pipe;
 import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
@@ -39,8 +42,8 @@ public class RepairServiceImp implements RepairService {
 
     @Override
     public BaseResult<Object> addTask(WebRepair webRepair) {
-        if(accountMapper.getAccountById(webRepair.getUserId())==null){
-            return new BaseResult<>(500,"用户不存在");
+        if (accountMapper.getAccountById(webRepair.getUserId()) == null) {
+            return new BaseResult<>(500, "用户不存在");
         }
         MongoRepair mongoRepair = new MongoRepair(webRepair.getSpecialId(), webRepair.getLayerId(),
                 webRepair.getUserId(), webRepair.getDesc(), ReportStateEnum.getEnum(webRepair.getState()));
@@ -48,72 +51,98 @@ public class RepairServiceImp implements RepairService {
         mongoRepairRepository.save(mongoRepair);
 
         MongoLayer mongoLayer = mongoLayerRepository.findById(webRepair.getLayerId());
-        if(mongoLayer==null){
-            return new BaseResult<>(500,"图层不存在");
+        if (mongoLayer == null) {
+            return new BaseResult<>(500, "图层不存在");
         }
         TypeEnum type = mongoLayer.getData().getType();
-        if(type==TypeEnum.YJG){
-            CoverDomain coverDomain =  (CoverDomain) mongoLayer.getData();
+
+        boolean flag = true;
+        if (type == TypeEnum.YJG) {
+            CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
             List<PointDomain> pointDomainList = coverDomain.getPointList();
-            boolean flag=true;
-            for (PointDomain pointDomain:pointDomainList) {
-                if(pointDomain.getSpecialId().equals(webRepair.getSpecialId())){
+
+            for (PointDomain pointDomain : pointDomainList) {
+                if (pointDomain.getSpecialId().equals(webRepair.getSpecialId())) {
                     pointDomain.getRepairIds().add(mongoRepair.getId());
-                    flag=false;
+                    flag = false;
                     break;
                 }
             }
-            if(flag){
-                return new BaseResult<>(500,"报修设施不存在");
+        } else if (type == TypeEnum.XSG) {
+            PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
+            List<LineDomain> lineDomainList = pipeDomain.getLineList();
+            for (LineDomain lineDomain : lineDomainList) {
+                if (lineDomain.getSpecialId().equals(webRepair.getSpecialId())) {
+                    lineDomain.getRepairIds().add(mongoRepair.getId());
+                    flag = false;
+                    break;
+                }
             }
-            mongoLayerRepository.save(mongoLayer);
         }
+        if (flag) {
+            return new BaseResult<>(500, "报修设施不存在");
+        }
+        mongoLayerRepository.save(mongoLayer);
         return new BaseResult<>(mongoRepair);
     }
 
     @Override
-    public BaseResult<Object> changeState(String id, String state){
+    public BaseResult<Object> changeState(String id, String state) {
         MongoRepair mongoRepair = mongoRepairRepository.findOne(id);
-        if(mongoRepair == null){
-            return new BaseResult<>(500,"报修不存在");
+        if (mongoRepair == null) {
+            return new BaseResult<>(500, "报修不存在");
         }
         mongoRepair.setState(ReportStateEnum.getEnum(state));
         mongoRepairRepository.save(mongoRepair);
         return new BaseResult<>(mongoRepair);
     }
 
+    //TODO:重构代码，加入BaseSectionDomain
     @Override
-    public BaseResult<Object> deleteFromLayer(String layerId,Long specialId,String repairId){
+    public BaseResult<Object> deleteFromLayer(String layerId, Long specialId, String repairId) {
         MongoLayer mongoLayer = mongoLayerRepository.findById(layerId);
-        if(mongoLayer==null){
-            return new BaseResult<>(500,"图层不存在");
+        if (mongoLayer == null) {
+            return new BaseResult<>(500, "图层不存在");
         }
         TypeEnum type = mongoLayer.getData().getType();
-        if(type==TypeEnum.YJG){
-            CoverDomain coverDomain =  (CoverDomain) mongoLayer.getData();
+        boolean flag = true;
+        List<String> repairIdList = null;
+        if (type == TypeEnum.YJG) {
+            CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
             List<PointDomain> pointDomainList = coverDomain.getPointList();
-            boolean flag=true;
-            for (PointDomain pointDomain:pointDomainList) {
-                System.out.println(pointDomain.getSpecialId());
-                if(pointDomain.getSpecialId().equals(specialId)){
-                    System.out.println("true");
-                    Iterator<String> iterator = pointDomain.getRepairIds().iterator();
-                    while(iterator.hasNext()){
-                        String id = iterator.next();
-                        System.out.println(id);
-                        if(id.equals(repairId)){
-                            iterator.remove();
-                            flag=false;
-                            break;
-                        }
-                    }
+            for (PointDomain pointDomain : pointDomainList) {
+                if (pointDomain.getSpecialId().equals(specialId)) {
+                    repairIdList = pointDomain.getRepairIds();
+                    break;
                 }
             }
-            if(flag){
-                return new BaseResult<>(500,"报修不存在");
+        } else if (type == TypeEnum.XSG) {
+            PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
+            List<LineDomain> lineDomainList = pipeDomain.getLineList();
+            for (LineDomain lineDomain : lineDomainList) {
+                if (lineDomain.getSpecialId().equals(specialId)) {
+                    repairIdList = lineDomain.getRepairIds();
+                    break;
+                }
             }
-            mongoLayerRepository.save(mongoLayer);
         }
+        if (repairIdList == null) {
+            return new BaseResult<>(500, "报修设施不存在");
+        } else {
+            Iterator<String> iterator = repairIdList.iterator();
+            while (iterator.hasNext()) {
+                String id = iterator.next();
+                if (id.equals(repairId)) {
+                    iterator.remove();
+                    flag = false;
+                    break;
+                }
+            }
+        }
+        if (flag) {
+            return new BaseResult<>(500, "报修不存在");
+        }
+        mongoLayerRepository.save(mongoLayer);
         return new BaseResult<>(null);
     }
 }
