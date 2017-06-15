@@ -22,6 +22,7 @@ import java.util.List;
 @Service
 public class ExcelServiceImp implements ExcelService {
 
+    //TODO:返回类型太特定，可考虑pointlist或者点公用的commondomain
     @Override
     public CommonCoverDomain pointExcelAnalysis(MultipartFile file) {
         List<PointDomain> list = new ArrayList<>();

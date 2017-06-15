@@ -14,7 +14,7 @@ public interface RepairService {
      * @param webRepair
      * @return
      */
-    BaseResult<Object> addTask(WebRepair webRepair);
+    BaseResult<Object> addRepair(WebRepair webRepair);
 
     /**
      * 修改报修状态

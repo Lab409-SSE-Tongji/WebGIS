@@ -3,6 +3,7 @@ package com.webgis.service.imp;
 import com.webgis.domain.base.BaseDomain;
 import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CommonCoverDomain;
+import com.webgis.domain.lamp.CommonLampDomain;
 import com.webgis.domain.pipe.CommonPipeDomain;
 import com.webgis.enums.TypeEnum;
 import com.webgis.mongo.MongoLayerRepository;
@@ -13,10 +14,7 @@ import com.webgis.mongo.entity.MongoMap;
 import com.webgis.service.ExcelService;
 import com.webgis.service.LayerService;
 import com.webgis.web.BaseResult;
-import com.webgis.web.dto.WebLayer;
-import com.webgis.web.dto.WebLineLayer;
-import com.webgis.web.dto.WebPointLayer;
-import com.webgis.web.dto.WebMapContent;
+import com.webgis.web.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,7 +58,7 @@ public class  LayerServiceImp implements LayerService {
     @Override
     public BaseResult<Object> addLayer(MultipartFile file, int mapId, TypeEnum type) {
 
-
+        System.out.println(type);
         Date currentTime = new Date();
 
         BaseDomain baseDomain = null;
@@ -71,6 +69,9 @@ public class  LayerServiceImp implements LayerService {
                     break;
                 case XSG:
                     baseDomain = excelService.lineExcelAnalysis(file);
+                    break;
+                case LD:
+                    baseDomain = new CommonLampDomain(excelService.pointExcelAnalysis(file).getPointList());
                     break;
                 default:
                     return new BaseResult<>(500,"图层类型暂未收录");
@@ -83,6 +84,9 @@ public class  LayerServiceImp implements LayerService {
                     break;
                 case XSG:
                     baseDomain = new CommonPipeDomain(null);
+                    break;
+                case LD:
+                    baseDomain = new CommonLampDomain(null);
                     break;
                 default:
                     return new BaseResult<>(500,"图层类型暂未收录");
@@ -117,6 +121,8 @@ public class  LayerServiceImp implements LayerService {
             case XSG:
                 mongoLayer.setData(((WebLineLayer)webLayer).getData());
                 break;
+            case LD:
+                mongoLayer.setData(((WebLampLayer)webLayer).getData());
             default:
                 break;
         }
