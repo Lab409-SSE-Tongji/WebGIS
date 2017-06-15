@@ -73,7 +73,7 @@ public class  LayerServiceImp implements LayerService {
                     baseDomain = excelService.lineExcelAnalysis(file);
                     break;
                 default:
-                    break;
+                    return new BaseResult<>(500,"图层类型暂未收录");
             }
         }
         else{
@@ -85,7 +85,7 @@ public class  LayerServiceImp implements LayerService {
                     baseDomain = new CommonPipeDomain(null);
                     break;
                 default:
-                    break;
+                    return new BaseResult<>(500,"图层类型暂未收录");
             }
         }
         MongoLayer mongoLayer = new MongoLayer(baseDomain, currentTime, currentTime);
@@ -93,6 +93,9 @@ public class  LayerServiceImp implements LayerService {
         mongoLayer = mongoLayerRepository.save(mongoLayer);
         String layerId = mongoLayer.getId();
         MongoMap mongoMap = mongoMapRepository.findByMapId(mapId);
+        if(mongoMap==null){
+            return new BaseResult<>(500,"地图不存在，请先创建地图");
+        }
         mongoMap.getLayerIds().add(layerId);
         mongoMapRepository.save(mongoMap);
 

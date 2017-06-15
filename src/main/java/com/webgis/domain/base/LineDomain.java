@@ -2,6 +2,10 @@ package com.webgis.domain.base;
 
 import com.webgis.enums.StatusEnum;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by Justin on 2017/3/14.
  *
@@ -21,10 +25,12 @@ public class LineDomain {
     private double x2;
     private double y2;
     private double z2;
-
+    private Long specialId;
     private StatusEnum status;
+    private List<String> repairIds;
 
     public LineDomain() {
+        this.repairIds = new ArrayList<>();
     }
 
     public void setId(String id) {
@@ -49,8 +55,10 @@ public class LineDomain {
         this.y2 = y2;
         this.z2 = z2;
         this.status = status;
+        this.specialId = new Date().getTime();
         url = "";
         id = "";
+        this.repairIds = new ArrayList<>();
     }
 
     public double getX() {
@@ -108,6 +116,23 @@ public class LineDomain {
     public void setStatus(StatusEnum status) {
         this.status = status;
     }
+
+    public Long getSpecialId() {
+        return specialId;
+    }
+
+    public void setSpecialId(Long specialId) {
+        this.specialId = specialId;
+    }
+
+    public List<String> getRepairIds() {
+        return repairIds;
+    }
+
+    public void setRepairIds(List<String> repairIds) {
+        this.repairIds = repairIds;
+    }
+
 
     @Override
     public String toString() {
