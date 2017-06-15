@@ -116,6 +116,9 @@ public class RepairServiceImp implements RepairService {
                 return new BaseResult<>(500,"报修不存在");
             }
             mongoLayerRepository.save(mongoLayer);
+            MongoRepair repair = mongoRepairRepository.findById(repairId);
+            repair.setState(ReportStateEnum.getEnum("FINISH"));
+            mongoRepairRepository.save(repair);
         }
         return new BaseResult<>(null);
     }
