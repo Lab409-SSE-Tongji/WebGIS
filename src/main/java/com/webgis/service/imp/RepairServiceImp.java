@@ -46,7 +46,7 @@ public class RepairServiceImp implements RepairService {
             return new BaseResult<>(500, "用户不存在");
         }
         MongoRepair mongoRepair = new MongoRepair(webRepair.getSpecialId(), webRepair.getLayerId(),
-                webRepair.getUserId(), webRepair.getDesc(), ReportStateEnum.getEnum(webRepair.getState()));
+                webRepair.getUserId(), webRepair.getDesc(),webRepair.getUrl(), ReportStateEnum.getEnum(webRepair.getState()));
 
         mongoRepairRepository.save(mongoRepair);
 
