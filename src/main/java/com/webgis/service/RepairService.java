@@ -32,4 +32,11 @@ public interface RepairService {
      * @return
      */
     BaseResult<Object> deleteFromLayer(String layerId,Long specialId,String repairId);
+
+    /**
+     * 根据userId，获取所有的报修信息
+     * @param userId
+     * @return
+     */
+    BaseResult<Object> findAllByUserId(int userId);
 }

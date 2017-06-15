@@ -19,19 +19,29 @@ public class MongoRepair {
     private String layerId;
     private int userId;
 
+    private String url;
     private String desc;
     private Date createDate;
     private ReportStateEnum state;
 
     @PersistenceConstructor
     public MongoRepair(long specialId,String layerId,int userId,
-                       String desc,ReportStateEnum state){
+                       String desc,ReportStateEnum state,String url){
         this.specialId = specialId;
         this.layerId = layerId;
         this.userId = userId;
         this.desc = desc;
         this.createDate = new Date();
         this.state = state;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getId() {

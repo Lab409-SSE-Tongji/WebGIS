@@ -183,7 +183,6 @@ public class  LayerServiceImp implements LayerService {
                 if (points != null) {
                     for (PointDomain point : points) {
                         for (String repairId : point.getRepairIds()) {
-//                            point.getRepairs().add()
                             point.getRepairs().add(mongoRepairRepository.findById(repairId));
                         }
                     }
