@@ -3,6 +3,7 @@ package com.webgis.service.imp;
 import com.webgis.domain.base.LineDomain;
 import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CoverDomain;
+import com.webgis.domain.lamp.LampDomain;
 import com.webgis.domain.pipe.PipeDomain;
 import com.webgis.enums.ReportStateEnum;
 import com.webgis.enums.TypeEnum;
@@ -42,14 +43,14 @@ public class RepairServiceImp implements RepairService {
     private MongoLayerRepository mongoLayerRepository;
 
 
+    //TODO:重构点线的集合...
     @Override
-    public BaseResult<Object> addTask(WebRepair webRepair) {
+    public BaseResult<Object> addRepair(WebRepair webRepair) {
         if (accountMapper.getAccountById(webRepair.getUserId()) == null) {
             return new BaseResult<>(500, "用户不存在");
         }
         MongoRepair mongoRepair = new MongoRepair(webRepair.getSpecialId(), webRepair.getLayerId(),
-                webRepair.getUserId(), webRepair.getDesc(), ReportStateEnum.getEnum(webRepair.getState()),
-                webRepair.getUrl());
+                webRepair.getUserId(), webRepair.getDesc(), webRepair.getUrl(), ReportStateEnum.getEnum(webRepair.getState()));
 
         mongoRepairRepository.save(mongoRepair);
 
@@ -60,27 +61,41 @@ public class RepairServiceImp implements RepairService {
         TypeEnum type = mongoLayer.getData().getType();
 
         boolean flag = true;
-        if (type == TypeEnum.YJG) {
-            CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
-            List<PointDomain> pointDomainList = coverDomain.getPointList();
+        switch (type){
+            case YJG:
+                CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
+                List<PointDomain> pointDomainList = coverDomain.getPointList();
 
-            for (PointDomain pointDomain : pointDomainList) {
-                if (pointDomain.getSpecialId().equals(webRepair.getSpecialId())) {
-                    pointDomain.getRepairIds().add(mongoRepair.getId());
-                    flag = false;
-                    break;
+                for (PointDomain pointDomain : pointDomainList) {
+                    if (pointDomain.getSpecialId().equals(webRepair.getSpecialId())) {
+                        pointDomain.getRepairIds().add(mongoRepair.getId());
+                        flag = false;
+                        break;
+                    }
                 }
-            }
-        } else if (type == TypeEnum.XSG) {
-            PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
-            List<LineDomain> lineDomainList = pipeDomain.getLineList();
-            for (LineDomain lineDomain : lineDomainList) {
-                if (lineDomain.getSpecialId().equals(webRepair.getSpecialId())) {
-                    lineDomain.getRepairIds().add(mongoRepair.getId());
-                    flag = false;
-                    break;
+                break;
+            case LD:
+                LampDomain lampDomain = (LampDomain)mongoLayer.getData();
+                List<PointDomain> lampDomainList = lampDomain.getPointList();
+
+                for (PointDomain pointDomain : lampDomainList) {
+                    if (pointDomain.getSpecialId().equals(webRepair.getSpecialId())) {
+                        pointDomain.getRepairIds().add(mongoRepair.getId());
+                        flag = false;
+                        break;
+                    }
                 }
-            }
+                break;
+            case XSG:
+                PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
+                List<LineDomain> lineDomainList = pipeDomain.getLineList();
+                for (LineDomain lineDomain : lineDomainList) {
+                    if (lineDomain.getSpecialId().equals(webRepair.getSpecialId())) {
+                        lineDomain.getRepairIds().add(mongoRepair.getId());
+                        flag = false;
+                        break;
+                    }
+                }
         }
         if (flag) {
             return new BaseResult<>(500, "报修设施不存在");
@@ -110,24 +125,38 @@ public class RepairServiceImp implements RepairService {
         TypeEnum type = mongoLayer.getData().getType();
         boolean flag = true;
         List<String> repairIdList = null;
-        if (type == TypeEnum.YJG) {
-            CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
-            List<PointDomain> pointDomainList = coverDomain.getPointList();
-            for (PointDomain pointDomain : pointDomainList) {
-                if (pointDomain.getSpecialId().equals(specialId)) {
-                    repairIdList = pointDomain.getRepairIds();
-                    break;
+        switch (type) {
+            case LD:
+                LampDomain lampDomain = (LampDomain) mongoLayer.getData();
+                List<PointDomain> pointDomainList = lampDomain.getPointList();
+                for (PointDomain pointDomain : pointDomainList) {
+                    if (pointDomain.getSpecialId().equals(specialId)) {
+                        repairIdList = pointDomain.getRepairIds();
+                        break;
+                    }
                 }
-            }
-        } else if (type == TypeEnum.XSG) {
-            PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
-            List<LineDomain> lineDomainList = pipeDomain.getLineList();
-            for (LineDomain lineDomain : lineDomainList) {
-                if (lineDomain.getSpecialId().equals(specialId)) {
-                    repairIdList = lineDomain.getRepairIds();
-                    break;
+                break;
+            case YJG:
+                CoverDomain coverDomain = (CoverDomain) mongoLayer.getData();
+                List<PointDomain> lampDomainList = coverDomain.getPointList();
+                for (PointDomain pointDomain : lampDomainList) {
+                    if (pointDomain.getSpecialId().equals(specialId)) {
+                        repairIdList = pointDomain.getRepairIds();
+                        break;
+                    }
                 }
-            }
+                break;
+            case XSG:
+                PipeDomain pipeDomain = (PipeDomain) mongoLayer.getData();
+                List<LineDomain> lineDomainList = pipeDomain.getLineList();
+                for (LineDomain lineDomain : lineDomainList) {
+                    if (lineDomain.getSpecialId().equals(specialId)) {
+                        repairIdList = lineDomain.getRepairIds();
+                        break;
+                    }
+                }
+            default:
+                break;
         }
         if (repairIdList == null) {
             return new BaseResult<>(500, "报修设施不存在");

@@ -1,13 +1,10 @@
 package com.webgis.controller;
 
-import com.webgis.enums.ReportStateEnum;
 import com.webgis.service.RepairService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebRepair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.Console;
 
 /**
  * Created by CCMEOW on 2017/6/14.
@@ -27,7 +24,7 @@ public class RepairController {
     @ResponseBody
     @RequestMapping(value = "/repair",method = RequestMethod.POST)
     public BaseResult<Object> createRepair(@RequestBody WebRepair webRepair){
-        return repairService.addTask(webRepair);
+        return repairService.addRepair(webRepair);
     }
 
     @ResponseBody

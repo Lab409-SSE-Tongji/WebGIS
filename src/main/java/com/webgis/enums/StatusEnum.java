@@ -8,12 +8,12 @@ package com.webgis.enums;
  */
 
 public enum  StatusEnum {
-    GOOD("001", "Good"),
-    BAD("002", "Bad"),
-    REPAIRED("003","Repaired"),
-    HOLLOW("004","Hollow"),
-    LOST("005","Lost"),
-    BLOCKED("006","Blocked");
+    GOOD("001", "完好"),
+    BREAK("002", "破坏"),
+    SERVICE("003","维修"),
+//    HOLLOW("004","Hollow"),
+    LOST("005","丢失"),
+    BLOCK("006","故障");
 
 
     private String code;

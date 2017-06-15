@@ -18,7 +18,6 @@ public class MongoRepair {
     private Long specialId;
     private String layerId;
     private int userId;
-
     private String url;
     private String desc;
     private Date createDate;
@@ -26,12 +25,13 @@ public class MongoRepair {
 
     @PersistenceConstructor
     public MongoRepair(long specialId,String layerId,int userId,
-                       String desc,ReportStateEnum state,String url){
+                       String desc,String url,ReportStateEnum state){
         this.specialId = specialId;
         this.layerId = layerId;
         this.userId = userId;
         this.desc = desc;
         this.createDate = new Date();
+        this.url=url;
         this.state = state;
         this.url = url;
     }

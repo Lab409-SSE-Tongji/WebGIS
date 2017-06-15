@@ -9,7 +9,8 @@ package com.webgis.enums;
 
 public enum TypeEnum {
     YJG("001", "窨井盖"),
-    XSG("002", "下水管");
+    XSG("002", "下水管"),
+    LD("003","路灯");
 
     private String code;
     private String value;
