@@ -98,7 +98,7 @@ public class LayerController {
 
 
     /**
-     * 获取图层数据接口
+     * 获取所有图层数据接口
      * @return
      */
     @RequestMapping(value = "/layers/all", method = RequestMethod.GET)

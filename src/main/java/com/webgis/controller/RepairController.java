@@ -28,6 +28,12 @@ public class RepairController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/repair/userId",method = RequestMethod.GET)
+    public BaseResult<Object> createRepair(@RequestParam int userId){
+        return repairService.findAllByUserId(userId);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/repair/state/{repairId}",method = RequestMethod.PATCH)
     public BaseResult<Object> updateRepair(@PathVariable("repairId") String repairId, @RequestParam String state){
         return repairService.changeState(repairId,state);

@@ -33,6 +33,15 @@ public class MongoRepair {
         this.createDate = new Date();
         this.url=url;
         this.state = state;
+        this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getId() {
@@ -89,14 +98,6 @@ public class MongoRepair {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
 }

@@ -3,10 +3,11 @@ package com.webgis.enums;
 
 public enum ReportStateEnum {
 
-    DAMAGE("0","损坏"),
-    LOST("1","丢失"),
-    BLOCK("2","堵塞"),
-    FINISH("3","已处理");
+    DAMAGE("0","DAMAGE"),
+    LOST("1","LOST"),
+    BLOCK("2","BLOCK"),
+    FINISH("3","FINISH"),
+    DELETE("4", "DELETE");
 
     private String code;
     private String value;

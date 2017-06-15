@@ -1,6 +1,9 @@
 package com.webgis.web.dto;
 
+import com.webgis.domain.base.LineDomain;
+import com.webgis.domain.base.PointDomain;
 import com.webgis.enums.ReportStateEnum;
+import com.webgis.mongo.entity.MongoRepair;
 
 /**
  * Created by CCMEOW on 2017/6/14.
@@ -16,6 +19,44 @@ public class WebRepair {
     private String desc;
     private String state;
 
+    private PointDomain point;
+    private LineDomain line;
+
+    public WebRepair(){}
+
+    public WebRepair(MongoRepair repair) {
+        this.id = repair.getId();
+        this.specialId = repair.getSpecialId();
+        this.layerId = repair.getLayerId();
+        this.userId = repair.getUserId();
+        this.url = repair.getUrl();
+        this.desc = repair.getDesc();
+        this.state = repair.getState().getValue();
+    }
+
+    public PointDomain getPoint() {
+        return point;
+    }
+
+    public void setPoint(PointDomain point) {
+        this.point = point;
+    }
+
+    public LineDomain getLine() {
+        return line;
+    }
+
+    public void setLine(LineDomain line) {
+        this.line = line;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getId() {
         return id;
@@ -66,13 +107,5 @@ public class WebRepair {
         this.state = state;
     }
 
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 
 }

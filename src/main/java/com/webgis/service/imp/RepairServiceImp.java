@@ -21,8 +21,10 @@ import org.springframework.stereotype.Service;
 
 import java.nio.channels.Pipe;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -168,11 +170,42 @@ public class RepairServiceImp implements RepairService {
                     break;
                 }
             }
+            mongoLayerRepository.save(mongoLayer);
+            MongoRepair repair = mongoRepairRepository.findById(repairId);
+            repair.setState(ReportStateEnum.getEnum("FINISH"));
+            mongoRepairRepository.save(repair);
+
         }
         if (flag) {
             return new BaseResult<>(500, "报修不存在");
         }
         mongoLayerRepository.save(mongoLayer);
         return new BaseResult<>(null);
+    }
+
+    @Override
+    public BaseResult<Object> findAllByUserId(int userId) {
+        List<MongoRepair> repairs = mongoRepairRepository.findByUserId(userId);
+        List<WebRepair> resutls = new ArrayList<>();
+        for (MongoRepair repair : repairs) {
+            WebRepair webRepair = new WebRepair(repair);
+            MongoLayer layer = mongoLayerRepository.findById(repair.getLayerId());
+            if (layer != null) {
+                switch (layer.getData().getType()) {
+                    case YJG:
+                        for(PointDomain pointDomain : ((CoverDomain) layer.getData()).getPointList()){
+                            if (Objects.equals(pointDomain.getSpecialId(), repair.getSpecialId())) {
+                                webRepair.setPoint(pointDomain);
+                                break;
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                resutls.add(webRepair);
+            }
+        }
+        return new BaseResult<>(resutls);
     }
 }

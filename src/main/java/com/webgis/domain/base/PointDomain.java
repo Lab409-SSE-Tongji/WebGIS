@@ -19,7 +19,7 @@ import java.util.List;
 public class PointDomain {
 
     private String url;
-    private String id;
+    private String pointId;
     private Long specialId;
 
     private double x;
@@ -37,7 +37,6 @@ public class PointDomain {
 
     public PointDomain(double x, double y, double z, StatusEnum status, String url) {
         this.url = url;
-        id = "";
         this.x = x;
         this.y = y;
         this.z = z;
@@ -70,12 +69,12 @@ public class PointDomain {
         this.specialId = specialId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getPointId() {
+        return pointId;
     }
 
-    public String getId() {
-        return id;
+    public void setPointId(String pointId) {
+        this.pointId = pointId;
     }
 
     public String getUrl() {return url;}
