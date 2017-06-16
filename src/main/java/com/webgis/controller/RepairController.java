@@ -28,8 +28,14 @@ public class RepairController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/repair",method = RequestMethod.GET)
+    public BaseResult<Object> getRepair(){
+        return repairService.findAll();
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/repair/userId",method = RequestMethod.GET)
-    public BaseResult<Object> createRepair(@RequestParam int userId){
+    public BaseResult<Object> getRepair(@RequestParam int userId){
         return repairService.findAllByUserId(userId);
     }
 

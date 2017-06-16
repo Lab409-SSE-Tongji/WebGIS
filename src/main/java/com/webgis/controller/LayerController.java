@@ -3,6 +3,7 @@ package com.webgis.controller;
 import com.webgis.enums.TypeEnum;
 import com.webgis.service.LayerService;
 import com.webgis.web.BaseResult;
+import com.webgis.web.dto.WebLampLayer;
 import com.webgis.web.dto.WebLineLayer;
 import com.webgis.web.dto.WebPointLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,17 @@ public class LayerController {
     }
 
     /**
+     * 更新点类图层接口
+     * @param webLampLayer
+     * @return
+     */
+    @RequestMapping(value = "/layers/lamp/id", method = RequestMethod.PATCH)
+    @ResponseBody
+    public BaseResult<Object> updateLampLayer(@RequestBody WebLampLayer webLampLayer) {
+        return layerService.updateLayer(webLampLayer);
+    }
+
+    /**
      * 更新线类图层接口
      * @param webLineLayer
      * @return
@@ -96,6 +108,16 @@ public class LayerController {
         return layerService.getLayer(mapId);
     }
 
+    /**
+     * 获取图层及相关报修信息的数据接口
+     * @param mapId
+     * @return
+     */
+    @RequestMapping(value = "/layers/repair", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getLayerWithRepair(@RequestParam("mapId") int mapId) {
+        return layerService.getLayerWithRepair(mapId);
+    }
 
     /**
      * 获取所有图层数据接口
@@ -117,6 +139,17 @@ public class LayerController {
     @ResponseBody
     public BaseResult<Object> getSingleLayer(@RequestParam("layerId") String layerId) {
         return layerService.getLayer(layerId);
+    }
+
+    /**
+     * 获取单个图层数据接口以及报修信息
+     * @param layerId
+     * @return
+     */
+    @RequestMapping(value = "/layer/repair", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getSingleLayerWithRepair(@RequestParam("layerId") String layerId) {
+        return layerService.getLayerWithRepair(layerId);
     }
 
 }

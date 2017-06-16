@@ -186,6 +186,18 @@ public class RepairServiceImp implements RepairService {
     @Override
     public BaseResult<Object> findAllByUserId(int userId) {
         List<MongoRepair> repairs = mongoRepairRepository.findByUserId(userId);
+        List<WebRepair> resutls = getWebRepairList(repairs);
+        return new BaseResult<>(resutls);
+    }
+
+    @Override
+    public BaseResult<Object> findAll() {
+        List<MongoRepair> repairs = mongoRepairRepository.findAll();
+        List<WebRepair> resutls = getWebRepairList(repairs);
+        return new BaseResult<>(resutls);
+    }
+
+    private List<WebRepair> getWebRepairList(List<MongoRepair> repairs) {
         List<WebRepair> resutls = new ArrayList<>();
         for (MongoRepair repair : repairs) {
             WebRepair webRepair = new WebRepair(repair);
@@ -206,6 +218,6 @@ public class RepairServiceImp implements RepairService {
                 resutls.add(webRepair);
             }
         }
-        return new BaseResult<>(resutls);
+        return resutls;
     }
 }

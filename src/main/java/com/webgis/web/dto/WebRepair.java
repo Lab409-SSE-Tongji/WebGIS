@@ -4,6 +4,10 @@ import com.webgis.domain.base.LineDomain;
 import com.webgis.domain.base.PointDomain;
 import com.webgis.enums.ReportStateEnum;
 import com.webgis.mongo.entity.MongoRepair;
+import com.webgis.utils.DateUtil;
+
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * Created by CCMEOW on 2017/6/14.
@@ -18,6 +22,7 @@ public class WebRepair {
     private String url;
     private String desc;
     private String state;
+    private Long createDate;
 
     private PointDomain point;
     private LineDomain line;
@@ -32,6 +37,15 @@ public class WebRepair {
         this.url = repair.getUrl();
         this.desc = repair.getDesc();
         this.state = repair.getState().getValue();
+        this.createDate = repair.getCreateDate().getTime();
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
     }
 
     public PointDomain getPoint() {
