@@ -5,6 +5,7 @@ import com.webgis.security.model.token.JwtTokenFactory;
 import com.webgis.service.AccountService;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
+import com.webgis.web.dto.WebResetPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
@@ -126,6 +127,18 @@ public class AccountController {
     @RequestMapping(value="/accounts/map",method = RequestMethod.DELETE)
     public BaseResult<Object> deleteMapOfAdmin(@RequestParam Integer mapId,@RequestParam Integer adminId){
         return accountService.deleteMapOfAdmin(mapId,adminId);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/account/{id}",method = RequestMethod.GET)
+    public BaseResult<Object> getAccount(@PathVariable("id") Integer id){
+        return accountService.getAccount(id);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/account",method = RequestMethod.PUT)
+    public BaseResult<Object> updatePassword(@RequestBody WebResetPassword webResetPassword){
+        return accountService.updatePassword(webResetPassword);
     }
 
     /**
