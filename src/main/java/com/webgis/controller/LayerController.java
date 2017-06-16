@@ -3,6 +3,7 @@ package com.webgis.controller;
 import com.webgis.enums.TypeEnum;
 import com.webgis.service.LayerService;
 import com.webgis.web.BaseResult;
+import com.webgis.web.dto.WebLampLayer;
 import com.webgis.web.dto.WebLineLayer;
 import com.webgis.web.dto.WebPointLayer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,17 @@ public class LayerController {
     @ResponseBody
     public BaseResult<Object> updatePointLayer(@RequestBody WebPointLayer webPointLayer) {
         return layerService.updateLayer(webPointLayer);
+    }
+
+    /**
+     * 更新点类图层接口
+     * @param webLampLayer
+     * @return
+     */
+    @RequestMapping(value = "/layers/lamp/id", method = RequestMethod.PATCH)
+    @ResponseBody
+    public BaseResult<Object> updateLampLayer(@RequestBody WebLampLayer webLampLayer) {
+        return layerService.updateLayer(webLampLayer);
     }
 
     /**
