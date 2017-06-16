@@ -61,6 +61,7 @@ public class AccountServiceImp implements AccountService {
         if (accountMapper.getAccountByUsername(webAccount.getUsername()) != null) {
             return new BaseResult<>(500, "用户已经存在");
         }
+        
         if(role.equals(RoleEnum.ADMIN.toString())){
             AccountDO accountDO = accountMapper.getSuperAdminById(webAccount.getSuperAdminId());
             if(accountDO==null){
