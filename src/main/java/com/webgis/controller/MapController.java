@@ -135,5 +135,25 @@ public class MapController {
         return mapService.getMapByAdminId(adminId);
     }
 
+    /**
+     *根据当前文件夹获取管理员管理的地图
+     */
+    @RequestMapping(value="/maps/admin/folder",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getMapByAdminAndFolder(@RequestParam("adminId") Integer adminId,
+                                                     @RequestParam("folderId") Integer folderId){
+        return mapService.getMapByAdminAndFolder(adminId,folderId);
+    }
+
+    /**
+     *根据当前文件夹和页码获取管理员管理的地图
+     */
+    @RequestMapping(value="/maps/admin/folder/page",method = RequestMethod.GET)
+    @ResponseBody
+    public BaseResult<Object> getMapByAdminAndFolder(@RequestParam("adminId") Integer adminId,
+                                                     @RequestParam("folderId") Integer folderId,
+                                                     @RequestParam("page") Integer page){
+        return mapService.getMapByAdminIdAndFolderAndPage(adminId,folderId,page);
+    }
 
 }

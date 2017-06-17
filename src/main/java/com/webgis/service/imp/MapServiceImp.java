@@ -196,4 +196,41 @@ public class MapServiceImp implements MapService {
         }
         return new BaseResult<>(mapDOs);
     }
+
+    @Override
+    public BaseResult<Object> getMapByAdminAndFolder(int adminId,int folderId){
+        List<Integer> mapIdList = adminMapMapper.getMapIdByAdminId(adminId);
+        List<MapDO> mapDOs = new ArrayList<>();
+        for(int mapId : mapIdList){
+            mapDOs.add(mapMapper.getMapByIdAndFolderId(mapId,folderId));
+        }
+        return new BaseResult<>(mapDOs);
+    }
+
+    @Override
+    public BaseResult<Object> getMapByAdminIdAndFolderAndPage(int adminId,int folderId,Integer currPage){
+        if(currPage<1){
+            return new BaseResult<>(500,"当前页码不能小于1");
+        }
+        List<Integer> mapIdList = adminMapMapper.getMapIdByAdminId(adminId);
+        List<MapDO> mapDOs = new ArrayList<>();
+        for(int mapId : mapIdList){
+            mapDOs.add(mapMapper.getMapByIdAndFolderId(mapId,folderId));
+        }
+        Map m = new HashMap();
+        int sum = mapDOs.size();
+        int pageNum;
+        pageNum = sum%10==0?sum/10:sum/10+1;
+        if(currPage>pageNum){
+            return new BaseResult<>(500,"当前页码超过总页数");
+        }
+        int currIndex = (currPage - 1) * 10;
+
+        m.put("pageNum", pageNum);
+        int toIndex = currIndex+10<=sum?currIndex+10:sum;
+        List<MapDO> pageMapDos = mapDOs.subList(currIndex,toIndex);
+        m.put("map", pageMapDos);
+        return new BaseResult<>(m);
+    }
+
 }

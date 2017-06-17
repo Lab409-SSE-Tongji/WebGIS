@@ -76,4 +76,21 @@ public interface MapService {
      * @return
      */
     BaseResult<Object> getMapByAdminId(int adminId);
+
+    /**
+     * 根据管理员id和当前文件夹id获取其管理的地图
+     * @param adminId
+     * @param folderId
+     * @return
+     */
+    BaseResult<Object> getMapByAdminAndFolder(int adminId,int folderId);
+
+    /**
+     * 根据管理员id和当前文件夹id和当前页获取其管理的地图
+     * @param adminId
+     * @param folderId
+     * @param currPage
+     * @return
+     */
+    BaseResult<Object> getMapByAdminIdAndFolderAndPage(int adminId,int folderId,Integer currPage);
 }
