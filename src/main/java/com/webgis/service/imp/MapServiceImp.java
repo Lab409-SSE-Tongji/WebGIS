@@ -221,6 +221,7 @@ public class MapServiceImp implements MapService {
         int sum = mapDOs.size();
         int pageNum;
         pageNum = sum%10==0?sum/10:sum/10+1;
+        pageNum = pageNum==0?1:pageNum;
         if(currPage>pageNum){
             return new BaseResult<>(500,"当前页码超过总页数");
         }
