@@ -69,6 +69,7 @@ public class MapServiceImp implements MapService {
         if (mapMapper.getMapById(mapId) == null) {
             return new BaseResult<>(500, "该地图不存在");
         }
+        adminMapMapper.deleteByMapId(mapId);
         mapMapper.deleteMap(mapId);
         mongoMapRepository.deleteByMapId(mapId);
         return new BaseResult<>();
