@@ -216,7 +216,9 @@ public class MapServiceImp implements MapService {
         List<Integer> mapIdList = adminMapMapper.getMapIdByAdminId(adminId);
         List<MapDO> mapDOs = new ArrayList<>();
         for(int mapId : mapIdList){
-            mapDOs.add(mapMapper.getMapByIdAndFolderId(mapId,folderId));
+            MapDO mapDO = mapMapper.getMapByIdAndFolderId(mapId,folderId);
+            if(mapDO!=null)
+                mapDOs.add(mapDO);
         }
         Map m = new HashMap();
         int sum = mapDOs.size();
