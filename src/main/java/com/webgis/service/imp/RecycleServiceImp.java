@@ -2,6 +2,7 @@ package com.webgis.service.imp;
 
 import com.webgis.mongo.MongoMapRepository;
 import com.webgis.mysql.entity.MapDO;
+import com.webgis.mysql.mapper.AdminMapMapper;
 import com.webgis.mysql.mapper.MapMapper;
 import com.webgis.mysql.mapper.RecycleMapper;
 import com.webgis.service.RecycleService;
@@ -25,6 +26,8 @@ public class RecycleServiceImp implements RecycleService {
     @Autowired
     private MapMapper mapMapper;
     @Autowired
+    private AdminMapMapper adminMapMapper;
+    @Autowired
     private MongoMapRepository mongoMapRepository;
     @Autowired
     private RecycleMapper recycleMapper;
@@ -38,6 +41,7 @@ public class RecycleServiceImp implements RecycleService {
         }
         MapDO mapDO = mapMapper.getMapById(mapId);
         recycleMapper.insert(mapDO);
+        adminMapMapper.deleteByMapId(mapId);
         mapMapper.deleteMap(mapId);
         return new BaseResult<>();
     }

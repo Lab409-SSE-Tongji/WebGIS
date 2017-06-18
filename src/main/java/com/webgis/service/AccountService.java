@@ -3,6 +3,7 @@ package com.webgis.service;
 import com.webgis.security.model.token.JwtToken;
 import com.webgis.web.BaseResult;
 import com.webgis.web.dto.WebAccount;
+import com.webgis.web.dto.WebResetPassword;
 
 /**
  * Created by Justin on 2017/3/8.
@@ -69,4 +70,18 @@ public interface AccountService {
      * @return
      */
     BaseResult<Object> getAdminsBySuperAdmin(int superAdminId);
+
+    /**
+     * 获取账号信息
+     * @param id
+     * @return
+     */
+    BaseResult<Object> getAccount(int id);
+
+    /**
+     * 更新密码
+     * @param webResetPassword
+     * @return
+     */
+    BaseResult<Object> updatePassword(WebResetPassword webResetPassword);
 }

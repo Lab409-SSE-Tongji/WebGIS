@@ -56,6 +56,15 @@ public interface MapMapper {
     MapDO getMapById(@Param("id") int id);
 
     /**
+     * 根据地图id和folerid获取地图
+     * @param id
+     * @param folderId
+     * @return
+     */
+    @Select("SELECT * FROM map WHERE id=#{id} and folder=#{folderId}")
+    MapDO getMapByIdAndFolderId(@Param("id") int id, @Param("folderId") int folderId);
+
+    /**
      * 根据账户ID获取所有创建地图
      * @param accountId
      * @return
@@ -83,7 +92,7 @@ public interface MapMapper {
     List<MapDO> getMapByAccountIdandFolderIdandPageId(@Param("accountId") int accountId, @Param("folderId") int folderId, @Param("pageNow") int pageNow);
 
     /**
-     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图
+     * 根据账户ID及当前文件夹ID及pageID分页获取所有创建地图的数量
      * @param accountId
      * @param folderId
      * @return
