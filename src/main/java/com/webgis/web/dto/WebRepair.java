@@ -36,8 +36,18 @@ public class WebRepair {
         this.userId = repair.getUserId();
         this.url = repair.getUrl();
         this.desc = repair.getDesc();
-        this.state = repair.getState().getValue();
-        this.createDate = repair.getCreateDate().getTime();
+        if (repair.getState() == null) {
+            this.state = null;
+        }
+        else {
+            this.state = repair.getState().getValue();
+        }
+        if (repair.getCreateDate() == null) {
+            this.createDate = null;
+        }
+        else {
+            this.createDate = repair.getCreateDate().getTime();
+        }
     }
 
     public Long getCreateDate() {
