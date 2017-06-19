@@ -236,6 +236,15 @@ public class  LayerServiceImp implements LayerService {
                     }
                 }
             }
+        } else if (layer.getData().getClass() == CommonLampDomain.class) {
+            List<PointDomain> points = ((CommonLampDomain) layer.getData()).getPointList();
+            if (points != null) {
+                for (PointDomain point : points) {
+                    for (String repairId : point.getRepairIds()) {
+                        point.getRepairs().add(mongoRepairRepository.findById(repairId));
+                    }
+                }
+            }
         }
 
     }

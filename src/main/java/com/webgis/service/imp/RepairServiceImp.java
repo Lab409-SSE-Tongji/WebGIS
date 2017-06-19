@@ -3,6 +3,7 @@ package com.webgis.service.imp;
 import com.webgis.domain.base.LineDomain;
 import com.webgis.domain.base.PointDomain;
 import com.webgis.domain.cover.CoverDomain;
+import com.webgis.domain.lamp.CommonLampDomain;
 import com.webgis.domain.lamp.LampDomain;
 import com.webgis.domain.pipe.PipeDomain;
 import com.webgis.enums.ReportStateEnum;
@@ -206,6 +207,14 @@ public class RepairServiceImp implements RepairService {
                 switch (layer.getData().getType()) {
                     case YJG:
                         for(PointDomain pointDomain : ((CoverDomain) layer.getData()).getPointList()){
+                            if (Objects.equals(pointDomain.getSpecialId(), repair.getSpecialId())) {
+                                webRepair.setPoint(pointDomain);
+                                break;
+                            }
+                        }
+                        break;
+                    case LD:
+                        for(PointDomain pointDomain : ((CommonLampDomain) layer.getData()).getPointList()){
                             if (Objects.equals(pointDomain.getSpecialId(), repair.getSpecialId())) {
                                 webRepair.setPoint(pointDomain);
                                 break;
