@@ -7,7 +7,8 @@ public enum ReportStateEnum {
     LOST("1","LOST"),
     BLOCK("2","BLOCK"),
     FINISH("3","FINISH"),
-    DELETE("4", "DELETE");
+    DELETE("4", "DELETE"),
+    BAD("5", "BAD");
 
     private String code;
     private String value;

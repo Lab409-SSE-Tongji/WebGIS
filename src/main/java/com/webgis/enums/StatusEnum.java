@@ -13,7 +13,8 @@ public enum  StatusEnum {
     SERVICE("003","维修"),
 //    HOLLOW("004","Hollow"),
     LOST("005","丢失"),
-    BLOCK("006","故障");
+    BLOCK("006","故障"),
+    BAD("007","坏的");
 
 
     private String code;

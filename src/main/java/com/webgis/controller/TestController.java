@@ -35,6 +35,8 @@ import java.util.List;
 @RequestMapping("/test")
 public class TestController {
 
+    @Value("${value}")
+    private String value;
 
     @Autowired
     private AccountMapper accountMapper;
@@ -60,6 +62,7 @@ public class TestController {
      */
     @RequestMapping(value = "/state", method = RequestMethod.GET)
     public String state() {
-        return "Hello backend is starting. xtdddd.";
+        return value;
+//        return "Hello backend is starting. xtdddd.";
     }
 }
